@@ -60,24 +60,37 @@ function __number__(num){
 }
 
 function __number_sum__(numb1,numb2){
-	var _result_num = number(0);
 	numb1 = variable_clone(numb1);
 	numb2 = variable_clone(numb2);
 	
 	for(var i = array_length(numb1.num)-numb1.fract_length; i < array_length(numb2.num)-numb2.fract_length; i++){
-		array_push(numb1,0);
+		array_push(numb1.num,0);
 	}
 	for(var i = array_length(numb2.num)-numb2.fract_length; i < array_length(numb1.num)-numb1.fract_length; i++){
-		array_push(numb2,0);
+		array_push(numb2.num,0);
 	}
 	for(var i = numb1.fract_length; i < numb2.fract_length; i++){
-		array_insert(numb1,0,0);
+		array_insert(numb1.num,0,0);
 	}
 	for(var i = numb2.fract_length; i < numb1.fract_length; i++){
-		array_insert(numb2,0,0);
+		array_insert(numb2.num,0,0);
 	}
+	
+	var _result_num = number(0);
+	_result_num.num_sign = numb1.num_sign;
+	_result_num.fract_length = numb1.fract_length;
 	
 	var _overed_value = int64(0);
 	for(var i = 0; i < array_length(numb1.num); i++){
+		_result_num.num[i] = numb1.num[i]+numb2.num[i]+_overed_value;
+		_overed_value = (_result_num.num[i] & 0b1111111111111111111111111111111110000000000000000000000000000000) >> 31;
+		_result_num.num[i] = _result_num.num[i] & 0b0000000000000000000000000000000001111111111111111111111111111111;
+		
+		if(_overed_value != 0 && i >= array_length(numb1.num)){
+			array_push(numb1.num,0);
+			array_push(numb2.num,0);
+		}
 	}
+	
+	return _result_num;
 }
