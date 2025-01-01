@@ -58,3 +58,26 @@ function __number__(num){
 		}
 	}
 }
+
+function __number_sum__(numb1,numb2){
+	var _result_num = number(0);
+	numb1 = variable_clone(numb1);
+	numb2 = variable_clone(numb2);
+	
+	for(var i = array_length(numb1.num)-numb1.fract_length; i < array_length(numb2.num)-numb2.fract_length; i++){
+		array_push(numb1,0);
+	}
+	for(var i = array_length(numb2.num)-numb2.fract_length; i < array_length(numb1.num)-numb1.fract_length; i++){
+		array_push(numb2,0);
+	}
+	for(var i = numb1.fract_length; i < numb2.fract_length; i++){
+		array_insert(numb1,0,0);
+	}
+	for(var i = numb2.fract_length; i < numb1.fract_length; i++){
+		array_insert(numb2,0,0);
+	}
+	
+	var _overed_value = int64(0);
+	for(var i = 0; i < array_length(numb1.num); i++){
+	}
+}
