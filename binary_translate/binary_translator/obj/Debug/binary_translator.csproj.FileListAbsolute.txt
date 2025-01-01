@@ -1,0 +1,15 @@
+C:\Users\matt\Desktop\physia\binary_translate\binary_translator\bin\Debug\binary_translator.exe.config
+C:\Users\matt\Desktop\physia\binary_translate\binary_translator\bin\Debug\binary_translator.exe
+C:\Users\matt\Desktop\physia\binary_translate\binary_translator\bin\Debug\binary_translator.pdb
+C:\Users\matt\Desktop\physia\binary_translate\binary_translator\obj\Debug\binary_translator.csproj.AssemblyReference.cache
+C:\Users\matt\Desktop\physia\binary_translate\binary_translator\obj\Debug\MainWindow.g.cs
+C:\Users\matt\Desktop\physia\binary_translate\binary_translator\obj\Debug\App.g.cs
+C:\Users\matt\Desktop\physia\binary_translate\binary_translator\obj\Debug\binary_translator_MarkupCompile.cache
+C:\Users\matt\Desktop\physia\binary_translate\binary_translator\obj\Debug\binary_translator_MarkupCompile.lref
+C:\Users\matt\Desktop\physia\binary_translate\binary_translator\obj\Debug\MainWindow.baml
+C:\Users\matt\Desktop\physia\binary_translate\binary_translator\obj\Debug\binary_translator.g.resources
+C:\Users\matt\Desktop\physia\binary_translate\binary_translator\obj\Debug\binary_translator.Properties.Resources.resources
+C:\Users\matt\Desktop\physia\binary_translate\binary_translator\obj\Debug\binary_translator.csproj.GenerateResource.cache
+C:\Users\matt\Desktop\physia\binary_translate\binary_translator\obj\Debug\binary_translator.csproj.CoreCompileInputs.cache
+C:\Users\matt\Desktop\physia\binary_translate\binary_translator\obj\Debug\binary_translator.exe
+C:\Users\matt\Desktop\physia\binary_translate\binary_translator\obj\Debug\binary_translator.pdb

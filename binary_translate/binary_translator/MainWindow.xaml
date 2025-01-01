@@ -1,0 +1,15 @@
+﻿<Window x:Class="binary_translator.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:binary_translator"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <TextBox x:Name="source_box" HorizontalAlignment="Center" Height="72" Margin="0,117,0,0" TextWrapping="Wrap" Text= "" VerticalAlignment="Top" Width="324" Background="#FFFFE8E8" TextChanged="SourceBox_Text_Changed"/>
+        <TextBox x:Name="translate_result_box" HorizontalAlignment="Left" Height="82" Margin="60,238,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="324" Background="#FFFFE8E8" TextChanged="ResultBox_Text_Input"/>
+        <TextBox x:Name="translate_result_box_fract" HorizontalAlignment="Left" Height="82" Margin="417,238,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="324" Background="#FFFFE8E8"/>
+
+    </Grid>
+</Window>
