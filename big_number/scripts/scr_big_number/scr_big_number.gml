@@ -71,9 +71,17 @@ function __number_multiply__(numb1,numb2){
 		for(var ii = 0; ii < array_length(numb2.num); ii++){
 			var _val = numb1.num[i]*numb2.num[ii];
 			var _pos = i-numb1.fract_length+ii-numb2.fract_length;
-			var _temp_number = number();
+			var _temp_number = number(0);//num_sign은 굳이 지정하지 않음.
+			for(var ii = 0; ii < abs(_pos)+1; ii++){
+				_temp_number.num[ii] = 0;
+			}
+			_temp_number.num[_result_num.fract_length+_pos] = _val & 0b0000000000000000000000000000000001111111111111111111111111111111;
+			_temp_number.num[_result_num.fract_length+_pos+1] = _val >> 31;
+			_result_num = __number_sum__(_result_num,_temp_number);
 		}
 	}
+	
+	return _result_num;
 }
 
 function __number_sum__(numb1,numb2){
