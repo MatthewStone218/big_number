@@ -142,10 +142,11 @@ function __number_reciprocal__(numb){
 		}
 		_result_num.num[abs(_pos_approximation) div 31] = 1 << (_pos_approximation mod 31);
 	} else {
-		_result_num.fract_length = (_pos_approximation div 31) + 1;
-		for(var i = 0; i < (abs(_pos_approximation) div 31) + 1; i++){
+		_result_num.fract_length = (abs(_pos_approximation) div 31) + 1;
+		for(var i = 0; i < (abs(_pos_approximation) div 31) + 2; i++){
 			_result_num.num[i] = 0;
 		}
+		_result_num.num[0] = (1 << 31) >> (abs(_pos_approximation) mod 31);
 	}
 }
 
