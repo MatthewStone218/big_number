@@ -76,6 +76,10 @@ function number_bin_string(numb){
 	return _str;
 }
 
+function number_dec_string(numb){
+	
+}
+
 function __number_multiply__(numb1,numb2){
 	numb1 = variable_clone(numb1);
 	numb2 = variable_clone(numb2);
@@ -127,6 +131,26 @@ function __number_div__(numb1,numb2){
 	//_result_num = __number_clip__(_result_num); 곱에서 이미 클리핑 됨.
 	
 	return _result_num;
+}
+
+function __number_mod__(numb1, numb2){
+	return __number_int__(__number_multiply__(__number_fract__(numb1,numb2),numb2));
+}
+
+function __number_int__(numb){
+	numb = variable_clone(numb);
+	array_delete(numb.num,0,numb.fract_length);
+	numb.fract_length = 0;
+	return numb;
+}
+
+function __number_fract__(numb){
+	numb = variable_clone(numb);
+	var _delete_pos = numb.fract_length+2;
+	var _delete_length = array_length(numb.num) - numb.fract_length - 1;
+	array_delete(numb.num,_delete_pos,_delete_length);
+	numb.fract_length = array_length(numb.num)-1;
+	return numb;
 }
 
 function __number_reciprocal__(numb){
