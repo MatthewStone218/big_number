@@ -154,7 +154,7 @@ function __number_reciprocal__(numb){
 	for(var i = 0; i < 8; i++){
 		_result_num = __number_multiply__(_result_num, __number_sub__(_numb_2, __number_multiply__(numb, _result_num)));
 	}
-	
+	//나눗셈에 사용될 수 있기 때문에 클리핑 없이 진행
 	return _result_num;
 }
 
