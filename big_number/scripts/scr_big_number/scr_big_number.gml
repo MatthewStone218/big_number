@@ -116,7 +116,7 @@ function __number_reciprocal__(numb){
 	numb = variable_clone(numb);
 	
 	var _break = false;	
-	for(var a = array_length(numb.num)-1; a >= 0; a++){
+	for(var a = array_length(numb.num)-1; a >= 0; a--){
 		for(var b = 30; b >= 0; b--){
 			if((numb.num[a] & (1 << b)) != 0){
 				_break = true;
@@ -198,6 +198,68 @@ function __number_sum__(numb1,numb2){
 	_result_num = __number_clip__(_result_num);
 	
 	return _result_num;
+}
+
+function __number_sub__(numb1,numb2){
+	numb1 = variable_clone(numb1);
+	numb2 = variable_clone(numb2);
+	
+	var _max_fract_length = max(numb1.fract_length, numb2.fract_length);
+	numb1.fract_length = _max_fract_length;
+	numb2.fract_length = _max_fract_length;
+	
+	for(var i = array_length(numb1.num)-numb1.fract_length; i < array_length(numb2.num)-numb2.fract_length; i++){
+		array_push(numb1.num,0);
+	}
+	for(var i = array_length(numb2.num)-numb2.fract_length; i < array_length(numb1.num)-numb1.fract_length; i++){
+		array_push(numb2.num,0);
+	}
+	for(var i = numb1.fract_length; i < numb2.fract_length; i++){
+		array_insert(numb1.num,0,0);
+	}
+	for(var i = numb2.fract_length; i < numb1.fract_length; i++){
+		array_insert(numb2.num,0,0);
+	}
+	
+	var _result_num = number(0);
+	_result_num.num_sign = __number_cmp__(numb1, numb2);
+	_result_num.fract_length = numb1.fract_length;
+	
+	var _overed_value = int64(0);
+	for(var i = 0; i < array_length(numb1.num); i++){
+		_result_num.num[i] = numb1.num[i]+numb2.num[i]+_overed_value;
+		_overed_value = (_result_num.num[i] & 0b1111111111111111111111111111111110000000000000000000000000000000) >> 31;
+		_result_num.num[i] = _result_num.num[i] & 0b0000000000000000000000000000000001111111111111111111111111111111;
+		
+		if(_overed_value != 0 && i >= array_length(numb1.num)){
+			array_push(numb1.num,0);
+			array_push(numb2.num,0);
+		}
+	}
+	
+	_result_num = __number_clip__(_result_num);
+	
+	return _result_num;
+}
+
+function __number_cmp__(numb1,numb2){
+	var _balance = array_length(numb1.num)-numb1.fract_length - array_length(numb2.num)-numb2.fract_length;
+	
+	if(_balance != 0){
+		return sign(_balance);
+	}
+	
+	var _numb2_idx = array_length(numb2.num)-1;
+	for(var i = array_length(numb1.num)-1; i >= 0; i--){
+		if(_numb2_idx < 0){return 1;}
+		var _balance = numb1.num[i]-numb2.num[i];
+		if(_balance != 0){
+			return _balance;
+		}
+		_numb2_idx--;
+	}
+	
+	return array_length(numb1.num) - array_length(numb2.num);
 }
 
 function __number_clip__(numb){
