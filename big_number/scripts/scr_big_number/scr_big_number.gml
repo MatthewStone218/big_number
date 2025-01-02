@@ -228,9 +228,12 @@ function __number_sub__(numb1,numb2){
 	
 	var _overed_value = int64(0);
 	for(var i = 0; i < array_length(numb1.num); i++){
-		_result_num.num[i] = numb1.num[i]+numb2.num[i]+_overed_value;
-		_overed_value = (_result_num.num[i] & 0b1111111111111111111111111111111110000000000000000000000000000000) >> 31;
+		_result_num.num[i] = numb1.num[i]-numb2.num[i]-_overed_value;
+		_overed_value = _result_num.num[i] < 0;
 		_result_num.num[i] = _result_num.num[i] & 0b0000000000000000000000000000000001111111111111111111111111111111;
+		if(_overed_value){
+			_result_num.num[i] *= 1;
+		}
 	}
 	
 	_result_num = __number_clip__(_result_num);
