@@ -6,13 +6,13 @@ function number(num){
 
 function __number__(num) constructor {
 	if(is_real(num)){
+		var _num_fract = int64(0);
+		var _frac = frac(abs(num));
 		num = int64(num);
 		self.num_sign = sign(num);
 		if(self.num_sign == -1){
 			num *= -1;//그냥 abs() 쓰면 타입이 int64가 아니게 되어서 이런식으로 해야함.
 		}
-		var _num_fract = int64(0);
-		var _frac = frac(abs(num));
 		for(var i = 1; i < 30+1; i++){
 			if(sign(_frac) == 1 && power(0.5,i) <= _frac){
 				_frac -= power(0.5,i);
@@ -20,7 +20,6 @@ function __number__(num) constructor {
 			}
 			_num_fract = _num_fract << 1;
 		}
-		
 		if(_num_fract == 0){
 			self.num = [num];
 			self.fract_length = 0;
@@ -43,40 +42,53 @@ function __number__(num) constructor {
 		}
 		
 		var _dot_pos = string_pos(".",num);
+		var _additional_digit = 10 - ((_dot_pos-1) mod 10);
+		var _additional_fract = 10 - ((string_length(num) - _dot_pos) mod 10)
+		var _pow;
+		
 		if(_dot_pos != 0){
 			num = string_delete(num,_dot_pos,1);
+			_pow = (_dot_pos-2) div 10;
+			repeat(_additional_digit){
+				num = string_insert("0",num,0);
+			}
+			repeat(_additional_fract){
+				num += "0";
+			}
 		} else {
-			_dot_pos = string_length(num)+1;
+			_pow = (string_length(num)-1) div 10;
 		}
 		
-		var _start_pos = ((_dot_pos-1) mod 10)-10;
 		var _pow = (_dot_pos-2) div 10;
 		
-		for(var i = _start_pos; i <= string_length(num); i += 10){
-			self.num = __number_sum__(self,__number_multiply__(real(string_copy(num,max(i,0),10)),__number_power__(number(1000000000),_pow)));
-			_pow -= 1;
+		for(var i = 0; i < string_length(num); i += 10){
+			self.num = __number_sum__(self,__number_multiply__(number(real(string_copy(num,i+1,10))),__number_power__(number(1000000000),number(_pow)))).num;
+			//show_message($"__number_multiply__(number(real(string_copy(num,i+1,10))),__number_power__(number(1000000000),number(_pow))) = __number_multiply__(number(real({string_copy(num,i+1,10)})),__number_power__(number(1000000000),number({_pow}))) = {__number_multiply__(number(real(string_copy(num,i+1,10))),__number_power__(number(1000000000),number(_pow)))}")
+			_pow--;
+			if(_pow == -1){
+				_pow--;
+			}
 		}
 	}
 }
 
 function number_string_bin(numb){
-	var _str = "";
-	for(var i = 0; i < array_length(numb.num); i++){
-		_str += " ";
-		if(array_length(numb.num)-numb.fract_length == i){
-			_str += ". ";
+	var _str = numb.num_sign == -1 ? "-" : "";
+	for(var i = array_length(numb.num)-1; i >= 0; i--){
+		if(array_length(numb.num)-numb.fract_length-1 == i){
+			_str += ".";
 		}
-		
 		for(var ii = 30; ii >= 0; ii--){
 			_str += (numb.num[i] & (1 << ii) != 0) ? "1" : "0";
 		}
+		_str += "\n";
 	}
 	
 	return _str;
 }
 
 function number_string_dec(numb,fract_length = 4){
-	var _str = "";
+	var _str = numb.num_sign == -1 ? "-" : "";
 	var _digit = 1;
 	
 	do {
@@ -115,7 +127,11 @@ function number_sub(numb1, numb2){
 	if(numb1.num_sign != numb2.num_sign){
 		return __number_sum__(numb1, numb2);
 	}
-	__number_sub__(numb1,numb2);
+	return __number_sub__(numb1,numb2);
+}
+
+function number_reciprocal(numb1, numb2){
+	return __number_reciprocal__(numb1, numb2);
 }
 
 function number_multiply(numb1, numb2){
@@ -143,9 +159,8 @@ function __number_multiply__(numb1,numb2){
 	numb2 = variable_clone(numb2);
 	var _result_num = number(0);
 	_result_num.num_sign = numb1.num_sign*numb2.num_sign;
-	_result_num.num = array_create(array_length(numb1)+array_length(numb2),0);
+	_result_num.num = array_create(array_length(numb1.num)+array_length(numb2.num),0);
 	_result_num.fract_length = numb1.fract_length+numb2.fract_length;
-	
 	for(var i = 0; i < array_length(numb1.num); i++){
 		for(var ii = 0; ii < array_length(numb2.num); ii++){
 			var _val = numb1.num[i]*numb2.num[ii];
@@ -156,10 +171,10 @@ function __number_multiply__(numb1,numb2){
 			}
 			_temp_number.num[_result_num.fract_length+_pos] = _val & 0b0000000000000000000000000000000001111111111111111111111111111111;
 			_temp_number.num[_result_num.fract_length+_pos+1] = _val >> 31;
+			_temp_number.fract_length = _result_num.fract_length;
 			_result_num = __number_sum__(_result_num,_temp_number);
 		}
 	}
-	
 	_result_num = __number_clip__(_result_num);
 	return _result_num;
 }
