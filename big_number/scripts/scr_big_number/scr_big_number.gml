@@ -134,7 +134,22 @@ function __number_div__(numb1,numb2){
 }
 
 function __number_mod__(numb1, numb2){
-	return __number_int__(__number_multiply__(__number_fract__(numb1,numb2),numb2));
+	return __number_round__(__number_multiply__(__number_fract__(numb1,numb2),numb2));
+}
+
+function __number_round__(numb){
+	numb = variable_clone(numb);
+	
+	if(numb.fract_length >= 1){
+		var _fract = numb.num[numb.fract_length-1];
+		if(_fract & (0b1000000000000000000000000000000)){
+			numb = __number_sum__(numb,number(1));
+		}
+	
+		array_delete(numb.num,0,numb.fract_length);
+		numb.fract_length = 0;
+	}
+	return numb;
 }
 
 function __number_int__(numb){
