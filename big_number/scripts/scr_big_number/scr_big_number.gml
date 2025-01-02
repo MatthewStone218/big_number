@@ -77,7 +77,8 @@ function number_bin_string(numb){
 }
 
 function number_dec_string(numb){
-	
+	var _str = "";
+	for(var i = 0;)
 }
 
 function __number_multiply__(numb1,numb2){
@@ -133,8 +134,17 @@ function __number_div__(numb1,numb2){
 	return _result_num;
 }
 
+function __number_div_int__(numb1,numb2){
+	var _result_num = number(0);
+	_result_num.num_sign = numb1.num_sign*numb2.num_sign;
+	_result_num = __number_multiply__(numb1,__number_reciprocal__(numb2));
+	//_result_num = __number_clip__(_result_num); 곱에서 이미 클리핑 됨.
+	_result_num = __number_int__(_result_num);
+	return _result_num;
+}
+
 function __number_mod__(numb1, numb2){
-	return __number_round__(__number_multiply__(__number_fract__(numb1,numb2),numb2));
+	return __number_sub__(numb1,__number_multiply__(__number_int__(__number_div__(numb1,numb2)), numb2));
 }
 
 function __number_round__(numb){
