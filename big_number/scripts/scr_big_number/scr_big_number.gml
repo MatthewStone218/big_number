@@ -62,14 +62,13 @@ function __number__(num) constructor {
 function number_string_bin(numb){
 	var _str = "";
 	for(var i = 0; i < array_length(numb.num); i++){
-		
 		_str += " ";
 		if(array_length(numb.num)-numb.fract_length == i){
 			_str += ". ";
 		}
 		
 		for(var ii = 30; ii >= 0; ii--){
-			_str += (numb.num[i] & (i << ii) != 0) ? "1" : "0";
+			_str += (numb.num[i] & (1 << ii) != 0) ? "1" : "0";
 		}
 	}
 	
@@ -97,6 +96,46 @@ function number_string_dec(numb,fract_length = 4){
 	}
 	
 	return _str;
+}
+
+function number_sum(numb1,numb2){
+	if(numb1.num_sign != numb2.num_sign){
+		var _cmp = __number_cmp__(numb1,numb2);
+		if(_cmp == 1){
+			return __number_sub__(numb1,numb2);
+		} else if(_cmp == -1){
+			return __number_sub__(numb2,numb1);
+		}
+		return 0;
+	}
+	return __number_sum__(numb1, numb2);
+}
+
+function number_sub(numb1, numb2){
+	if(numb1.num_sign != numb2.num_sign){
+		return __number_sum__(numb1, numb2);
+	}
+	__number_sub__(numb1,numb2);
+}
+
+function number_multiply(numb1, numb2){
+	return __number_multiply__(numb1, numb2);
+}
+
+function number_div(numb1, numb2){
+	return __number_div__(numb1, numb2);
+}
+
+function number_div_int(numb1, numb2){
+	return __number_div_int__(numb1, numb2);
+}
+
+function number_int(numb){
+	return __number_int__(numb);
+}
+
+function number_round(numb){
+	return __number_round__(numb);
 }
 
 function __number_multiply__(numb1,numb2){
@@ -150,16 +189,13 @@ function __number_power__(numb,pow){
 
 function __number_div__(numb1,numb2){
 	var _result_num = number(0);
-	_result_num.num_sign = numb1.num_sign*numb2.num_sign;
 	_result_num = __number_multiply__(numb1,__number_reciprocal__(numb2));
 	//_result_num = __number_clip__(_result_num); 곱에서 이미 클리핑 됨.
-	
 	return _result_num;
 }
 
 function __number_div_int__(numb1,numb2){
 	var _result_num = number(0);
-	_result_num.num_sign = numb1.num_sign*numb2.num_sign;
 	_result_num = __number_multiply__(numb1,__number_reciprocal__(numb2));
 	//_result_num = __number_clip__(_result_num); 곱에서 이미 클리핑 됨.
 	_result_num = __number_int__(_result_num);
@@ -238,6 +274,7 @@ function __number_reciprocal__(numb){
 		_result_num.num[0] = (1 << 31) >> (abs(_pos_approximation) mod 31);
 	}
 	
+	_result_num.num_sign = 1;
 	var _numb_2 = number(2);
 	
 	for(var i = 0; i < 8; i++){
@@ -312,7 +349,7 @@ function __number_sub__(numb1,numb2){
 	numb2.fract_length++;
 	
 	var _result_num = number(0);
-	_result_num.num_sign = __number_cmp__(numb1, numb2);
+	_result_num.num_sign = numb1.num_sign*__number_cmp__(numb1,numb2);
 	_result_num.fract_length = numb1.fract_length;
 	
 	var _overed_value = int64(0);
