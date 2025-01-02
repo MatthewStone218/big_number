@@ -112,6 +112,10 @@ function __number_div__(numb1,numb2){
 	return _result_num;
 }
 
+function __number_reciprocal__(numb){
+	
+}
+
 function __number_sum__(numb1,numb2){
 	numb1 = variable_clone(numb1);
 	numb2 = variable_clone(numb2);
