@@ -4,7 +4,7 @@ function number(num){
 	return new __number__(num);
 }
 
-function __number__(num){
+function __number__(num) constructor {
 	if(is_real(num)){
 		num = int64(num);
 		self.num_sign = sign(num);
@@ -59,7 +59,7 @@ function __number__(num){
 	}
 }
 
-function number_bin_string(numb){
+function number_string_bin(numb){
 	var _str = "";
 	for(var i = 0; i < array_length(numb.num); i++){
 		
@@ -76,7 +76,7 @@ function number_bin_string(numb){
 	return _str;
 }
 
-function number_dec_string(numb,fract_length = 4){
+function number_string_dec(numb,fract_length = 4){
 	var _str = "";
 	var _digit = 1;
 	
