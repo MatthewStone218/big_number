@@ -10,6 +10,7 @@ show_message(
 		number_multiply(number(0.5),number(0.25))
 	)
 )
+
 show_message(
 	number_string_bin(
 		number("2.5")

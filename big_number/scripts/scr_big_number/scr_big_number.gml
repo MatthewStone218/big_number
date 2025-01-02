@@ -63,7 +63,7 @@ function __number__(num) constructor {
 		
 		for(var i = 0; i < string_length(num); i += 10){
 			self.num = __number_sum__(self,__number_multiply__(number(real(string_copy(num,i+1,10))),__number_power__(number(1000000000),number(_pow)))).num;
-			//show_message($"__number_multiply__(number(real(string_copy(num,i+1,10))),__number_power__(number(1000000000),number(_pow))) = __number_multiply__(number(real({string_copy(num,i+1,10)})),__number_power__(number(1000000000),number({_pow}))) = {__number_multiply__(number(real(string_copy(num,i+1,10))),__number_power__(number(1000000000),number(_pow)))}")
+			show_message($"[][][]\n{__number_multiply__(number(real(string_copy(num,i+1,10))),__number_power__(number(1000000000),number(_pow)))}")
 			_pow--;
 			if(_pow == -1){
 				_pow--;
@@ -161,6 +161,7 @@ function __number_multiply__(numb1,numb2){
 	_result_num.num_sign = numb1.num_sign*numb2.num_sign;
 	_result_num.num = array_create(array_length(numb1.num)+array_length(numb2.num),0);
 	_result_num.fract_length = numb1.fract_length+numb2.fract_length;
+	
 	for(var i = 0; i < array_length(numb1.num); i++){
 		for(var ii = 0; ii < array_length(numb2.num); ii++){
 			var _val = numb1.num[i]*numb2.num[ii];
@@ -404,7 +405,6 @@ function __number_cmp__(numb1,numb2){
 
 function __number_clip__(numb){
 	numb = variable_clone(numb);
-	
 	for(var i = 0; i < numb.fract_length; i++){
 		if(numb.num[i] != 0){
 			break;
@@ -413,12 +413,11 @@ function __number_clip__(numb){
 		numb.fract_length--;
 		i--;
 	}
-	for(var i = array_length(numb.num)-1; i >= 1; i--){
+	for(var i = array_length(numb.num)-1; i > numb.fract_length; i--){
 		if(numb.num[i] != 0){
 			break;
 		}
 		array_pop(numb.num);
 	}
-	
 	return numb;
 }
