@@ -129,13 +129,18 @@ function __number_power__(numb,pow){
 	numb = variable_clone(numb);
 	var _result_numb = number(1);
 	
-	if(pow >= 0){
-		repeat(pow){
-			numb = __number_multiply__(_result_numb,numb);
+	if(pow.num_sign >= 0)
+	{
+		for(var i = 0; i < array_length(pow.num)-pow.fract_length; i++){
+			repeat(pow.num[i]){
+				numb = __number_multiply__(_result_numb,numb);
+			}
 		}
 	} else {
-		repeat(-pow){
-			numb = __number_div__(_result_numb,numb);
+		for(var i = 0; i < array_length(pow.num)-pow.fract_length; i++){
+			repeat(-pow.num[i]){
+				numb = __number_div__(_result_numb,numb);
+			}
 		}
 	}
 	//_result_num = __number_clip__(_result_num); 곱,나눗셈에서 이미 클리핑 됨.
