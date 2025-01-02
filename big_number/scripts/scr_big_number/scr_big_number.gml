@@ -123,13 +123,30 @@ function __number_reciprocal__(numb){
 				break;
 			}
 		}
-		if(_break){break;}
+		if(_break){
+			break;
+		}
 	}
 	
-	var _pos_approximation = a*31 + b - numb.fract_length*31 - 1;
+	if(!_break){
+		show_error("big number: can't reciprocal 0!", true);
+	}
 	
 	var _result_num = number(0);
+	var _pos_approximation = numb.fract_length*31 - a*31 - b - 1;
 	
+	if(_pos_approximation >= 0){
+		_result_num.fract_length = 0;
+		for(var i = 0; i < (abs(_pos_approximation) div 31) + 1; i++){
+			_result_num.num[i] = 0;
+		}
+		_result_num.num[abs(_pos_approximation) div 31] = 1 << (_pos_approximation mod 31);
+	} else {
+		_result_num.fract_length = (_pos_approximation div 31) + 1;
+		for(var i = 0; i < (abs(_pos_approximation) div 31) + 1; i++){
+			_result_num.num[i] = 0;
+		}
+	}
 }
 
 function __number_sum__(numb1,numb2){
