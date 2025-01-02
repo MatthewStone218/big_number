@@ -113,6 +113,22 @@ function __number_div__(numb1,numb2){
 }
 
 function __number_reciprocal__(numb){
+	numb = variable_clone(numb);
+	
+	var _break = false;	
+	for(var a = array_length(numb.num)-1; a >= 0; a++){
+		for(var b = 30; b >= 0; b--){
+			if((numb.num[a] & (1 << b)) != 0){
+				_break = true;
+				break;
+			}
+		}
+		if(_break){break;}
+	}
+	
+	var _pos_approximation = a*31 + b - numb.fract_length*31 - 1;
+	
+	var _result_num = number(0);
 	
 }
 
