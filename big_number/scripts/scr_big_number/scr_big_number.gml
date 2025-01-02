@@ -59,9 +59,28 @@ function __number__(num){
 	}
 }
 
+function __number_multiply__(numb1,numb2){
+	numb1 = variable_clone(numb1);
+	numb2 = variable_clone(numb2);
+	var _result_num = number(0);
+	_result_num.num_sign = numb1.num_sign*numb2.num_sign;
+	_result_num.num = array_create(array_length(numb1)+array_length(numb2),0);
+	_result_num.fract_length = numb1.fract_length+numb2.fract_length;
+	
+	for(var i = 0; i < array_length(numb1.num); i++){
+		for(var ii = 0; ii < array_length(numb2.num); ii++){
+			
+		}
+	}
+}
+
 function __number_sum__(numb1,numb2){
 	numb1 = variable_clone(numb1);
 	numb2 = variable_clone(numb2);
+	
+	var _max_fract_length = max(numb1.fract_length, numb2.fract_length);
+	numb1.fract_length = _max_fract_length;
+	numb2.fract_length = _max_fract_length;
 	
 	for(var i = array_length(numb1.num)-numb1.fract_length; i < array_length(numb2.num)-numb2.fract_length; i++){
 		array_push(numb1.num,0);
