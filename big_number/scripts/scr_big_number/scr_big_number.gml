@@ -178,6 +178,8 @@ function __number_sum__(numb1,numb2){
 	for(var i = numb2.fract_length; i < numb1.fract_length; i++){
 		array_insert(numb2.num,0,0);
 	}
+	array_push(numb1.num,0);
+	array_push(numb2.num,0);
 	
 	var _result_num = number(0);
 	_result_num.num_sign = numb1.num_sign;
@@ -188,11 +190,6 @@ function __number_sum__(numb1,numb2){
 		_result_num.num[i] = numb1.num[i]+numb2.num[i]+_overed_value;
 		_overed_value = (_result_num.num[i] & 0b1111111111111111111111111111111110000000000000000000000000000000) >> 31;
 		_result_num.num[i] = _result_num.num[i] & 0b0000000000000000000000000000000001111111111111111111111111111111;
-		
-		if(_overed_value != 0 && i >= array_length(numb1.num)){
-			array_push(numb1.num,0);
-			array_push(numb2.num,0);
-		}
 	}
 	
 	_result_num = __number_clip__(_result_num);
@@ -220,6 +217,10 @@ function __number_sub__(numb1,numb2){
 	for(var i = numb2.fract_length; i < numb1.fract_length; i++){
 		array_insert(numb2.num,0,0);
 	}
+	array_insert(numb1.num,0,0);
+	array_insert(numb2.num,0,0);
+	numb1.fract_length++;
+	numb2.fract_length++;
 	
 	var _result_num = number(0);
 	_result_num.num_sign = __number_cmp__(numb1, numb2);
@@ -230,11 +231,6 @@ function __number_sub__(numb1,numb2){
 		_result_num.num[i] = numb1.num[i]+numb2.num[i]+_overed_value;
 		_overed_value = (_result_num.num[i] & 0b1111111111111111111111111111111110000000000000000000000000000000) >> 31;
 		_result_num.num[i] = _result_num.num[i] & 0b0000000000000000000000000000000001111111111111111111111111111111;
-		
-		if(_overed_value != 0 && i >= array_length(numb1.num)){
-			array_push(numb1.num,0);
-			array_push(numb2.num,0);
-		}
 	}
 	
 	_result_num = __number_clip__(_result_num);
