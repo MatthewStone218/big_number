@@ -59,6 +59,23 @@ function __number__(num){
 	}
 }
 
+function number_bin_string(numb){
+	var _str = "";
+	for(var i = 0; i < array_length(numb.num); i++){
+		
+		_str += " ";
+		if(array_length(numb.num)-numb.fract_length == i){
+			_str += ". ";
+		}
+		
+		for(var ii = 30; ii >= 0; ii--){
+			_str += (numb.num[i] & (i << ii) != 0) ? "1" : "0";
+		}
+	}
+	
+	return _str;
+}
+
 function __number_multiply__(numb1,numb2){
 	numb1 = variable_clone(numb1);
 	numb2 = variable_clone(numb2);
