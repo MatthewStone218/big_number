@@ -69,7 +69,9 @@ function __number_multiply__(numb1,numb2){
 	
 	for(var i = 0; i < array_length(numb1.num); i++){
 		for(var ii = 0; ii < array_length(numb2.num); ii++){
-			
+			var _val = numb1.num[i]*numb2.num[ii];
+			var _pos = i-numb1.fract_length+ii-numb2.fract_length;
+			var _temp_number = number();
 		}
 	}
 }
