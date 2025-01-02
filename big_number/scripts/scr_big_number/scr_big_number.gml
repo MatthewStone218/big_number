@@ -76,9 +76,27 @@ function number_bin_string(numb){
 	return _str;
 }
 
-function number_dec_string(numb){
+function number_dec_string(numb,fract_length = 4){
 	var _str = "";
-	for(var i = 0;)
+	var _digit = 1;
+	
+	do {
+		var _pow1 = __number_power__(number(10),number(_digit));
+		var _pow2 = __number_power__(number(10),number(_digit-1));
+		var _num = __number_int__(__number_div__(__number_mod__(numb,_pow1),_pow2));
+		_str += string_format(_num.num[0],0,0);
+		_digit += 1;
+	} until (__number_cmp__(numb,__number_power__(number(10),number(_digit))) >= 0)
+	
+	var _digit = 1;
+	for(var i = 0; i < fract_length; i++){
+		var _pow = __number_power__(number(10), _digit);
+		var _num = __number_int__(__number_mod__(__number_multiply__(numb, _pow),number(10)));
+		_str += string_format(_num.num[0],0,0);
+		_digit -= 1;
+	}
+	
+	return _str;
 }
 
 function __number_multiply__(numb1,numb2){
