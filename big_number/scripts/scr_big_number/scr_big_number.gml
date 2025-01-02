@@ -148,6 +148,14 @@ function __number_reciprocal__(numb){
 		}
 		_result_num.num[0] = (1 << 31) >> (abs(_pos_approximation) mod 31);
 	}
+	
+	var _numb_2 = number(2);
+	
+	for(var i = 0; i < 8; i++){
+		_result_num = __number_multiply__(_result_num, __number_sub__(_numb_2, __number_multiply__(numb, _result_num)));
+	}
+	
+	return _result_num;
 }
 
 function __number_sum__(numb1,numb2){
