@@ -81,6 +81,34 @@ function __number_multiply__(numb1,numb2){
 		}
 	}
 	
+	_result_num = __number_clip__(_result_num);
+	return _result_num;
+}
+
+function __number_power__(numb,pow){
+	numb = variable_clone(numb);
+	var _result_numb = number(1);
+	
+	if(pow >= 0){
+		repeat(pow){
+			numb = __number_multiply__(_result_numb,numb);
+		}
+	} else {
+		repeat(-pow){
+			numb = __number_div__(_result_numb,numb);
+		}
+	}
+	//_result_num = __number_clip__(_result_num); 곱,나눗셈에서 이미 클리핑 됨.
+	
+	return _result_numb;
+}
+
+function __number_div__(numb1,numb2){
+	var _result_num = number(0);
+	_result_num.num_sign = numb1.num_sign*numb2.num_sign;
+	_result_num = __number_multiply__(numb1,__number_reciprocal__(numb2));
+	//_result_num = __number_clip__(_result_num); 곱에서 이미 클리핑 됨.
+	
 	return _result_num;
 }
 
@@ -121,5 +149,28 @@ function __number_sum__(numb1,numb2){
 		}
 	}
 	
+	_result_num = __number_clip__(_result_num);
+	
 	return _result_num;
+}
+
+function __number_clip__(numb){
+	numb = variable_clone(numb);
+	
+	for(var i = 0; i < numb.fract_length; i++){
+		if(numb.num[i] != 0){
+			break;
+		}
+		array_delete(numb.num,0,1);
+		numb.fract_length--;
+		i--;
+	}
+	for(var i = array_length(numb.num)-1; i >= 1; i--){
+		if(numb.num[i] != 0){
+			break;
+		}
+		array_pop(numb.num);
+	}
+	
+	return numb;
 }
