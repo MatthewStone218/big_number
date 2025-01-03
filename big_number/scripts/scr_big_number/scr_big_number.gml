@@ -268,10 +268,12 @@ function __number_reciprocal__(numb, accuracy){
 		}
 	}
 	
+	var _ddack = false;
 	var _break = false;	
 	for(var a = array_length(numb.num)-1; a >= 0; a--){
 		for(var b = 30; b >= 0; b--){
 			if((numb.num[a] & (1 << b)) != 0){
+				_ddack = numb.num[a] == (1 << b);
 				_break = true;
 				break;
 			}
