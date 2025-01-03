@@ -65,7 +65,7 @@ function __number__(num) constructor {
 			var _sumed_num = __number_sum__(self,__number_multiply__(number(real(string_copy(num,i+1,10))),__number_power__(number(1000000000),number(_pow)),0));
 			self.num = _sumed_num.num;
 			self.fract_length = _sumed_num.fract_length;
-			show_message($"[][][]\n{__number_multiply__(number(real(string_copy(num,i+1,10))),__number_power__(number(1000000000),number(_pow)))}\n{number(real(string_copy(num,i+1,10)))}*{__number_power__(number(1000000000),number(_pow))}\n{1000000000}^{_pow}")
+			//show_message($"[][][]\n{__number_multiply__(number(real(string_copy(num,i+1,10))),__number_power__(number(1000000000),number(_pow)))}\n{number(real(string_copy(num,i+1,10)))}*{__number_power__(number(1000000000),number(_pow))}\n{1000000000}^{_pow}")
 			_pow--;
 		}
 		
@@ -176,12 +176,14 @@ function __number_multiply__(numb1,numb2,accuracy){
 			_temp_number.num[_result_num.fract_length+_pos] = _val & 0b0000000000000000000000000000000001111111111111111111111111111111;
 			_temp_number.num[_result_num.fract_length+_pos+1] = _val >> 31;
 			_temp_number.fract_length = _result_num.fract_length;
+	//show_message($"aaaa1\n{_result_num} {accuracy}")
 			_result_num = __number_sum__(_result_num,_temp_number);
+	//show_message($"aaaa2\n{_result_num} {accuracy}")
 		}
 	}
-	show_message($"aaaa\n{_result_num} {accuracy}")
+	//show_message($"aaaa\n{_result_num} {accuracy}")
 	_result_num = __number_clip__(_result_num,accuracy);
-	show_message($"bbbb\n{_result_num} {accuracy}")
+	//show_message($"bbbb\n{_result_num} {accuracy}")
 	return _result_num;
 }
 
@@ -261,7 +263,6 @@ function __number_fract__(numb){
 
 function __number_reciprocal__(numb, accuracy){
 	numb = variable_clone(numb);
-	
 	if(accuracy != 0){
 		if(array_length(numb.num)-numb.fract_length > accuracy){
 			return 0;
@@ -319,8 +320,6 @@ function __number_sum__(numb1,numb2){
 	numb2 = variable_clone(numb2);
 	
 	var _max_fract_length = max(numb1.fract_length, numb2.fract_length);
-	numb1.fract_length = _max_fract_length;
-	numb2.fract_length = _max_fract_length;
 	
 	for(var i = array_length(numb1.num)-numb1.fract_length; i < array_length(numb2.num)-numb2.fract_length; i++){
 		array_push(numb1.num,0);
@@ -334,6 +333,8 @@ function __number_sum__(numb1,numb2){
 	for(var i = numb2.fract_length; i < numb1.fract_length; i++){
 		array_insert(numb2.num,0,0);
 	}
+	numb1.fract_length = _max_fract_length;
+	numb2.fract_length = _max_fract_length;
 	array_push(numb1.num,0);
 	array_push(numb2.num,0);
 	
@@ -416,11 +417,24 @@ function __number_cmp__(numb1,numb2){
 		_numb2_idx--;
 	}
 	
-	return array_length(numb1.num) - array_length(numb2.num);
+	return 0;
 }
 
 function __number_clip__(numb,accuracy = 0){
 	numb = variable_clone(numb);
+	for(var i = array_length(numb.num)-1; i > numb.fract_length-1; i--){
+		if(numb.num[i] != 0){
+			break;
+		}
+		array_pop(numb.num);
+	}
+	
+	if(accuracy > 0){
+		var _delete_length = max(numb.fract_length-accuracy,0);
+		array_delete(numb.num,0,_delete_length);
+		numb.fract_length -= _delete_length;
+	}
+	
 	for(var i = 0; i < numb.fract_length; i++){
 		if(numb.num[i] != 0){
 			break;
@@ -429,16 +443,6 @@ function __number_clip__(numb,accuracy = 0){
 		numb.fract_length--;
 		i--;
 	}
-	if(accuracy > 0){
-		array_delete(numb.num,0,max(numb.fract_length-accuracy,numb.fract_length));
-		numb.fract_length -= max(0,numb.fract_length-accuracy);
-	}
 	
-	for(var i = array_length(numb.num)-1; i > numb.fract_length; i--){
-		if(numb.num[i] != 0){
-			break;
-		}
-		array_pop(numb.num);
-	}
 	return numb;
 }
