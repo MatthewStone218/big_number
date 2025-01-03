@@ -168,8 +168,8 @@ function __number_multiply__(numb1,numb2,accuracy){
 			var _val = numb1.num[i]*numb2.num[ii];
 			var _pos = i-numb1.fract_length+ii-numb2.fract_length;
 			var _temp_number = number(0);//num_sign은 굳이 지정하지 않음.
-			for(var ii = 0; ii < abs(_pos)+1; ii++){
-				_temp_number.num[ii] = 0;
+			for(var iii = 0; iii < abs(_pos)+1; iii++){
+				_temp_number.num[iii] = 0;
 			}
 			_temp_number.num[_result_num.fract_length+_pos] = _val & 0b0000000000000000000000000000000001111111111111111111111111111111;
 			_temp_number.num[_result_num.fract_length+_pos+1] = _val >> 31;
@@ -305,7 +305,7 @@ function __number_reciprocal__(numb, accuracy){
 	var _numb_2 = number(2);
 	for(var i = 0; i < 8; i++){
 		//show_message($"__number_multiply__(numb, _result_num, accuracy) =\n\n__number_multiply__({numb}, {_result_num}, accuracy) =\n\n{__number_multiply__(numb, _result_num, accuracy)}")
-		//show_message($"__number_multiply__(_result_num, __number_sub__(_numb_2, __number_multiply__(numb, _result_num, accuracy))) =\n\n__number_multiply__({_result_num}, {__number_sub__(_numb_2, __number_multiply__(numb, _result_num, accuracy))})\n\n{__number_multiply__(_result_num, __number_sub__(_numb_2, __number_multiply__(numb, _result_num, accuracy)),0)}")
+		//show_message($"_result_num:{_result_num}\n\nnumb:{numb}\n\n__number_sub__(2, __number_multiply__(numb, _result_num))\n\n__number_sub__(2, {__number_multiply__(numb, _result_num, accuracy)})\n\n{__number_sub__(_numb_2, __number_multiply__(numb, _result_num, accuracy))}\n\n{__number_multiply__(_result_num, __number_sub__(_numb_2, __number_multiply__(numb, _result_num, accuracy)), accuracy)}")
 		_result_num = __number_multiply__(_result_num, __number_sub__(_numb_2, __number_multiply__(numb, _result_num, accuracy)), accuracy);
 	}
 	_result_num = __number_clip__(_result_num, accuracy);
@@ -389,7 +389,6 @@ function __number_sub__(numb1,numb2){
 	}
 	
 	_result_num = __number_clip__(_result_num);
-	show_message($"{_result_num}");
 	
 	return _result_num;
 }
