@@ -1,7 +1,8 @@
 /// @description 여기에 설명 삽입
 // 이 에디터에 코드를 작성할 수 있습니다
-show_message($"{number_multiply(number(4),number(0.001))}")
-show_message(number_power(number(1000000000),number(-1),3))
+//show_message($"{number_power(number(4),number(-3))}")
+//show_message($"{number_multiply(number(4),number(0.01),10)}")
+show_message(number_multiply(number(1000000000),number(1000000000)))
 show_message(
 	number_string_bin(
 		number("12222222222222222222")

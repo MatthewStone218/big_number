@@ -177,12 +177,11 @@ function __number_multiply__(numb1,numb2,accuracy){
 			for(var iii = 0; iii < abs(_pos)+1; iii++){
 				_temp_number.num[iii] = 0;
 			}
-			_temp_number.num[_result_num.fract_length+_pos] = _val & 0b0000000000000000000000000000000001111111111111111111111111111111;
+			_temp_number.num[_result_num.fract_length+_pos] = _val & 0b000000000000000000000000000000001111111111111111111111111111111;
+			show_message(_temp_number.num[_result_num.fract_length+_pos])
 			_temp_number.num[_result_num.fract_length+_pos+1] = _val >> 31;
 			_temp_number.fract_length = _result_num.fract_length;
-	//show_message($"aaaa1\n{_result_num} {accuracy}")
 			_result_num = __number_sum__(_result_num,_temp_number);
-	//show_message($"aaaa2\n{_result_num} {accuracy}")
 		}
 	}
 	//show_message($"aaaa\n{_result_num} {accuracy}")
@@ -198,7 +197,7 @@ function __number_power__(numb,pow,accuracy = 1){
 	
 	if(pow.num_sign >= 0){
 		for(var i = pow.fract_length; i < array_length(pow.num); i++){
-			repeat(power(2147483647,i)){
+			repeat(power(2147483647,i-pow.fract_length)){
 				repeat(pow.num[i]){
 					_result_numb = __number_multiply__(_result_numb,numb,accuracy);
 				}
@@ -206,14 +205,14 @@ function __number_power__(numb,pow,accuracy = 1){
 		}
 	} else {
 		for(var i = pow.fract_length; i < array_length(pow.num); i++){
-			repeat(power(2147483647,i)){
+			repeat(power(2147483647,i-pow.fract_length)){
 				repeat(pow.num[i]){
 					_result_numb = __number_div__(_result_numb,numb,accuracy);
 				}
 			}
 		}
 	}
-	show_message($"{numb}\n^{pow} = \n\n{_result_numb}\n\n{numb}\n^{pow} = \n\n{number_string_bin(_result_numb)}")
+	show_message($"{numb}\n^{pow} = \n\n{_result_numb}\n\n{numb}\n^{pow} = \n\n{_result_numb}")
 	return _result_numb;
 }
 
