@@ -7,7 +7,7 @@ show_message(
 )
 show_message(
 	number_string_bin(
-		number_reciprocal(number(0.25))
+		number_reciprocal(number(0.5), 0)
 	)
 )
 show_message(

@@ -8,8 +8,8 @@ function __number__(num) constructor {
 	if(is_real(num)){
 		var _num_fract = int64(0);
 		var _frac = frac(abs(num));
-		num = int64(num);
 		self.num_sign = sign(num);
+		num = int64(num);
 		if(self.num_sign == -1){
 			num *= -1;//그냥 abs() 쓰면 타입이 int64가 아니게 되어서 이런식으로 해야함.
 		}
@@ -62,9 +62,13 @@ function __number__(num) constructor {
 		var _pow = (_dot_pos-2) div 10;
 		
 		for(var i = 0; i < string_length(num); i += 10){
-			self.num = __number_sum__(self,__number_multiply__(number(real(string_copy(num,i+1,10))),__number_power__(number(1000000000),number(_pow)))).num;
+			self.num = __number_sum__(self,__number_multiply__(number(real(string_copy(num,i+1,10))),__number_power__(number(1000000000),number(_pow)),0)).num;
 			//show_message($"[][][]\n{__number_multiply__(number(real(string_copy(num,i+1,10))),__number_power__(number(1000000000),number(_pow)))}\n{number(real(string_copy(num,i+1,10)))}*{__number_power__(number(1000000000),number(_pow))}\n{1000000000}^{_pow}")
 			_pow--;
+		}
+		
+		if(self.fract_length == 0 && array_length(self.num) == 1 && self.num[0] == 0){
+			self.num_sign = 0;
 		}
 	}
 }
@@ -127,8 +131,8 @@ function number_sub(numb1, numb2){
 	return __number_sub__(numb1,numb2);
 }
 
-function number_reciprocal(numb1, numb2, accuracy = 1){
-	return __number_reciprocal__(numb1, numb2, accuracy);
+function number_reciprocal(numb1, accuracy = 1){
+	return __number_reciprocal__(numb1, accuracy);
 }
 
 function number_multiply(numb1, numb2, accuracy = 1){
@@ -282,13 +286,11 @@ function __number_reciprocal__(numb, accuracy){
 	}
 	
 	var _result_num = number(0);
-	var _pos_approximation = numb.fract_length*31 - a*31 - b - 1;//31 - 0 - 30
-	
-	show_message(_pos_approximation)
+	var _pos_approximation = numb.fract_length*31 - a*31 - b - 1;
 	
 	if(_pos_approximation >= 0){
 		_result_num.fract_length = 0;
-		for(var i = 0; i < (abs(_pos_approximation) div 31) + 1; i++){
+		for(var i = 0; i < _pos_approximation div 31; i++){
 			_result_num.num[i] = 0;
 		}
 		_result_num.num[abs(_pos_approximation) div 31] = 1 << (_pos_approximation mod 31);
@@ -301,11 +303,12 @@ function __number_reciprocal__(numb, accuracy){
 	}
 	_result_num.num_sign = 1;
 	var _numb_2 = number(2);
-	show_message(_result_num)
 	for(var i = 0; i < 8; i++){
+		//show_message($"__number_multiply__(numb, _result_num, accuracy) =\n\n__number_multiply__({numb}, {_result_num}, accuracy) =\n\n{__number_multiply__(numb, _result_num, accuracy)}")
+		//show_message($"__number_multiply__(_result_num, __number_sub__(_numb_2, __number_multiply__(numb, _result_num, accuracy))) =\n\n__number_multiply__({_result_num}, {__number_sub__(_numb_2, __number_multiply__(numb, _result_num, accuracy))})\n\n{__number_multiply__(_result_num, __number_sub__(_numb_2, __number_multiply__(numb, _result_num, accuracy)),0)}")
 		_result_num = __number_multiply__(_result_num, __number_sub__(_numb_2, __number_multiply__(numb, _result_num, accuracy)), accuracy);
 	}
-	//나눗셈에 사용될 수 있기 때문에 클리핑 없이 진행
+	_result_num = __number_clip__(_result_num, accuracy);
 	return _result_num;
 }
 
@@ -353,8 +356,6 @@ function __number_sub__(numb1,numb2){
 	numb2 = variable_clone(numb2);
 	
 	var _max_fract_length = max(numb1.fract_length, numb2.fract_length);
-	numb1.fract_length = _max_fract_length;
-	numb2.fract_length = _max_fract_length;
 	
 	for(var i = array_length(numb1.num)-numb1.fract_length; i < array_length(numb2.num)-numb2.fract_length; i++){
 		array_push(numb1.num,0);
@@ -370,8 +371,9 @@ function __number_sub__(numb1,numb2){
 	}
 	array_insert(numb1.num,0,0);
 	array_insert(numb2.num,0,0);
-	numb1.fract_length++;
-	numb2.fract_length++;
+	numb1.fract_length = _max_fract_length+1;
+	numb2.fract_length = _max_fract_length+1;
+	show_message($"{numb1}\n\n{numb2}");
 	
 	var _result_num = number(0);
 	_result_num.num_sign = numb1.num_sign*__number_cmp__(numb1,numb2);
@@ -388,6 +390,7 @@ function __number_sub__(numb1,numb2){
 	}
 	
 	_result_num = __number_clip__(_result_num);
+	show_message($"{_result_num}");
 	
 	return _result_num;
 }
