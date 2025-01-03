@@ -7,6 +7,11 @@ show_message(
 )
 show_message(
 	number_string_bin(
+		number_reciprocal(number(2))
+	)
+)
+show_message(
+	number_string_bin(
 		number_multiply(number(0.5),number(0.25))
 	)
 )

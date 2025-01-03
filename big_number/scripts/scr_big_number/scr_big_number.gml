@@ -63,11 +63,8 @@ function __number__(num) constructor {
 		
 		for(var i = 0; i < string_length(num); i += 10){
 			self.num = __number_sum__(self,__number_multiply__(number(real(string_copy(num,i+1,10))),__number_power__(number(1000000000),number(_pow)))).num;
-			show_message($"[][][]\n{__number_multiply__(number(real(string_copy(num,i+1,10))),__number_power__(number(1000000000),number(_pow)))}")
+			//show_message($"[][][]\n{__number_multiply__(number(real(string_copy(num,i+1,10))),__number_power__(number(1000000000),number(_pow)))}\n{number(real(string_copy(num,i+1,10)))}*{__number_power__(number(1000000000),number(_pow))}\n{1000000000}^{_pow}")
 			_pow--;
-			if(_pow == -1){
-				_pow--;
-			}
 		}
 	}
 }
@@ -75,7 +72,7 @@ function __number__(num) constructor {
 function number_string_bin(numb){
 	var _str = numb.num_sign == -1 ? "-" : "";
 	for(var i = array_length(numb.num)-1; i >= 0; i--){
-		if(array_length(numb.num)-numb.fract_length-1 == i){
+		if(numb.fract_length-1 == i){
 			_str += ".";
 		}
 		for(var ii = 30; ii >= 0; ii--){
@@ -130,16 +127,16 @@ function number_sub(numb1, numb2){
 	return __number_sub__(numb1,numb2);
 }
 
-function number_reciprocal(numb1, numb2){
-	return __number_reciprocal__(numb1, numb2);
+function number_reciprocal(numb1, numb2, accuracy = 1){
+	return __number_reciprocal__(numb1, numb2, accuracy);
 }
 
-function number_multiply(numb1, numb2){
-	return __number_multiply__(numb1, numb2);
+function number_multiply(numb1, numb2, accuracy = 1){
+	return __number_multiply__(numb1, numb2, accuracy);
 }
 
-function number_div(numb1, numb2){
-	return __number_div__(numb1, numb2);
+function number_div(numb1, numb2, accuracy = 1){
+	return __number_div__(numb1, numb2, accuracy);
 }
 
 function number_div_int(numb1, numb2){
@@ -154,7 +151,7 @@ function number_round(numb){
 	return __number_round__(numb);
 }
 
-function __number_multiply__(numb1,numb2){
+function __number_multiply__(numb1,numb2,accuracy){
 	numb1 = variable_clone(numb1);
 	numb2 = variable_clone(numb2);
 	var _result_num = number(0);
@@ -176,7 +173,7 @@ function __number_multiply__(numb1,numb2){
 			_result_num = __number_sum__(_result_num,_temp_number);
 		}
 	}
-	_result_num = __number_clip__(_result_num);
+	_result_num = __number_clip__(_result_num,accuracy);
 	return _result_num;
 }
 
@@ -184,17 +181,22 @@ function __number_power__(numb,pow){
 	numb = variable_clone(numb);
 	var _result_numb = number(1);
 	
-	if(pow.num_sign >= 0)
-	{
+	if(pow >= 0){
 		for(var i = 0; i < array_length(pow.num)-pow.fract_length; i++){
-			repeat(pow.num[i]){
-				numb = __number_multiply__(_result_numb,numb);
+			if(i > 0){show_error("big number: __number_power__ argument1 is too big?",true);}
+			repeat(power(2147483647,i)){
+				repeat(pow.num[i]){
+					_result_numb = __number_multiply__(_result_numb,numb);
+				}
 			}
 		}
 	} else {
 		for(var i = 0; i < array_length(pow.num)-pow.fract_length; i++){
-			repeat(-pow.num[i]){
-				numb = __number_div__(_result_numb,numb);
+			if(i > 0){show_error("big number: __number_power__ argument1 is too big?",true);}
+			repeat(power(2147483647,i)){
+				repeat(pow.num[i]){
+					_result_numb = __number_div__(_result_numb,numb);
+				}
 			}
 		}
 	}
@@ -253,8 +255,14 @@ function __number_fract__(numb){
 	return numb;
 }
 
-function __number_reciprocal__(numb){
+function __number_reciprocal__(numb, accuracy){
 	numb = variable_clone(numb);
+	
+	if(accuracy != 0){
+		if(array_length(numb.num)-numb.fract_length > accuracy){
+			return 0;
+		}
+	}
 	
 	var _break = false;	
 	for(var a = array_length(numb.num)-1; a >= 0; a--){
@@ -294,7 +302,7 @@ function __number_reciprocal__(numb){
 	var _numb_2 = number(2);
 	
 	for(var i = 0; i < 8; i++){
-		_result_num = __number_multiply__(_result_num, __number_sub__(_numb_2, __number_multiply__(numb, _result_num)));
+		_result_num = __number_multiply__(_result_num, __number_sub__(_numb_2, __number_multiply__(numb, _result_num, accuracy)), accuracy);
 	}
 	//나눗셈에 사용될 수 있기 때문에 클리핑 없이 진행
 	return _result_num;
@@ -403,7 +411,7 @@ function __number_cmp__(numb1,numb2){
 	return array_length(numb1.num) - array_length(numb2.num);
 }
 
-function __number_clip__(numb){
+function __number_clip__(numb,fract_length = 0){
 	numb = variable_clone(numb);
 	for(var i = 0; i < numb.fract_length; i++){
 		if(numb.num[i] != 0){
@@ -413,6 +421,12 @@ function __number_clip__(numb){
 		numb.fract_length--;
 		i--;
 	}
+	
+	if(fract_length > 0){
+		array_delete(numb,0,numb.fract_length-fract_length);
+		numb.fract_length -= numb.fract_length-fract_length;
+	}
+	
 	for(var i = array_length(numb.num)-1; i > numb.fract_length; i--){
 		if(numb.num[i] != 0){
 			break;
