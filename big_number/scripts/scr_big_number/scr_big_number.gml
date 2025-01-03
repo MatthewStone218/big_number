@@ -179,7 +179,9 @@ function __number_multiply__(numb1,numb2,accuracy){
 			_result_num = __number_sum__(_result_num,_temp_number);
 		}
 	}
+	show_message($"aaaa\n{_result_num} {accuracy}")
 	_result_num = __number_clip__(_result_num,accuracy);
+	show_message($"bbbb\n{_result_num} {accuracy}")
 	return _result_num;
 }
 
@@ -417,7 +419,7 @@ function __number_cmp__(numb1,numb2){
 	return array_length(numb1.num) - array_length(numb2.num);
 }
 
-function __number_clip__(numb,fract_length = 0){
+function __number_clip__(numb,accuracy = 0){
 	numb = variable_clone(numb);
 	for(var i = 0; i < numb.fract_length; i++){
 		if(numb.num[i] != 0){
@@ -427,9 +429,9 @@ function __number_clip__(numb,fract_length = 0){
 		numb.fract_length--;
 		i--;
 	}
-	if(fract_length > 0){
-		array_delete(numb.num,0,max(numb.fract_length-fract_length,numb.fract_length));
-		numb.fract_length -= max(0,numb.fract_length-fract_length);
+	if(accuracy > 0){
+		array_delete(numb.num,0,max(numb.fract_length-accuracy,numb.fract_length));
+		numb.fract_length -= max(0,numb.fract_length-accuracy);
 	}
 	
 	for(var i = array_length(numb.num)-1; i > numb.fract_length; i--){
