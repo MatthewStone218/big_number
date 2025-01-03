@@ -62,8 +62,10 @@ function __number__(num) constructor {
 		var _pow = (_dot_pos-2) div 10;
 		
 		for(var i = 0; i < string_length(num); i += 10){
-			self.num = __number_sum__(self,__number_multiply__(number(real(string_copy(num,i+1,10))),__number_power__(number(1000000000),number(_pow)),0)).num;
-			//show_message($"[][][]\n{__number_multiply__(number(real(string_copy(num,i+1,10))),__number_power__(number(1000000000),number(_pow)))}\n{number(real(string_copy(num,i+1,10)))}*{__number_power__(number(1000000000),number(_pow))}\n{1000000000}^{_pow}")
+			var _sumed_num = __number_sum__(self,__number_multiply__(number(real(string_copy(num,i+1,10))),__number_power__(number(1000000000),number(_pow)),0)).num;
+			self.num = _sumed_num.num;
+			self.num.fract_length = _sumed_num.fract_length;
+			show_message($"[][][]\n{__number_multiply__(number(real(string_copy(num,i+1,10))),__number_power__(number(1000000000),number(_pow)))}\n{number(real(string_copy(num,i+1,10)))}*{__number_power__(number(1000000000),number(_pow))}\n{1000000000}^{_pow}")
 			_pow--;
 		}
 		
@@ -268,12 +270,12 @@ function __number_reciprocal__(numb, accuracy){
 		}
 	}
 	
-	var _ddack = false;
+	var _not_ddack = true;
 	var _break = false;	
 	for(var a = array_length(numb.num)-1; a >= 0; a--){
 		for(var b = 30; b >= 0; b--){
 			if((numb.num[a] & (1 << b)) != 0){
-				_ddack = numb.num[a] == (1 << b);
+				_not_ddack = numb.num[a] != (1 << b);
 				_break = true;
 				break;
 			}
@@ -288,7 +290,7 @@ function __number_reciprocal__(numb, accuracy){
 	}
 	
 	var _result_num = number(0);
-	var _pos_approximation = numb.fract_length*31 - a*31 - b - 1;
+	var _pos_approximation = numb.fract_length*31 - a*31 - b - _not_ddack;
 	
 	if(_pos_approximation >= 0){
 		_result_num.fract_length = 0;

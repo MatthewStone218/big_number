@@ -2,12 +2,12 @@
 // 이 에디터에 코드를 작성할 수 있습니다
 show_message(
 	number_string_bin(
-		number(0.5)
+		number("0.2")
 	)
 )
 show_message(
 	number_string_bin(
-		number_reciprocal(number(0.5), 0)
+		number_reciprocal(number(0.33333), 0)
 	)
 )
 show_message(
