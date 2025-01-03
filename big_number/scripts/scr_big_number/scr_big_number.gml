@@ -59,13 +59,14 @@ function __number__(num) constructor {
 			_pow = (string_length(num)-1) div 10;
 		}
 		
-		var _pow = (_dot_pos-2) div 10;
+		var _lowest_pow = _pow-((string_length(num)-1) div 10)+1;
+		var _accuracy = -_lowest_pow+1;
 		
 		for(var i = 0; i < string_length(num)-1; i += 10){
-			var _sumed_num = __number_sum__(self,__number_multiply__(number(real(string_copy(num,i+1,10))),__number_power__(number(1000000000),number(_pow)),0));
+			var _sumed_num = __number_sum__(self,__number_multiply__(number(real(string_copy(num,i+1,10))),__number_power__(number(1000000000),number(_pow), _accuracy), _accuracy));
 			self.num = _sumed_num.num;
 			self.fract_length = _sumed_num.fract_length;
-			show_message($"[][][]\n{__number_multiply__(number(real(string_copy(num,i+1,10))),__number_power__(number(1000000000),number(_pow)))}\n{number(real(string_copy(num,i+1,10)))}*{__number_power__(number(1000000000),number(_pow))}\n{1000000000}^{_pow}")
+			//show_message($"[][][]\n{__number_multiply__(number(real(string_copy(num,i+1,10))),__number_power__(number(1000000000),number(_pow)))}\n{number(real(string_copy(num,i+1,10)))}*{__number_power__(number(1000000000),number(_pow))}\n{1000000000}^{_pow}")
 			_pow--;
 		}
 		
@@ -133,8 +134,18 @@ function number_sub(numb1, numb2){
 	return __number_sub__(numb1,numb2);
 }
 
-function number_reciprocal(numb1, accuracy = 1){
-	return __number_reciprocal__(numb1, accuracy);
+function number_reciprocal(numb, accuracy = -1){
+	var _result;
+	
+	if(accuracy == -1){
+		accuracy = array_length(numb.num)-numb.fract_length+1;
+		_result =  __number_reciprocal__(numb, accuracy);
+		_result = __number_clip__(_result,1);
+	} else {
+		_result =  __number_reciprocal__(numb, accuracy);
+	}
+	
+	return _result;
 }
 
 function number_multiply(numb1, numb2, accuracy = 1){
