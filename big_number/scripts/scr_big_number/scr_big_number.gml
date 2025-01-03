@@ -65,7 +65,7 @@ function __number__(num) constructor {
 			var _sumed_num = __number_sum__(self,__number_multiply__(number(real(string_copy(num,i+1,10))),__number_power__(number(1000000000),number(_pow)),0));
 			self.num = _sumed_num.num;
 			self.fract_length = _sumed_num.fract_length;
-			//show_message($"[][][]\n{__number_multiply__(number(real(string_copy(num,i+1,10))),__number_power__(number(1000000000),number(_pow)))}\n{number(real(string_copy(num,i+1,10)))}*{__number_power__(number(1000000000),number(_pow))}\n{1000000000}^{_pow}")
+			show_message($"[][][]\n{__number_multiply__(number(real(string_copy(num,i+1,10))),__number_power__(number(1000000000),number(_pow)))}\n{number(real(string_copy(num,i+1,10)))}*{__number_power__(number(1000000000),number(_pow))}\n{1000000000}^{_pow}")
 			_pow--;
 		}
 		
@@ -145,6 +145,10 @@ function number_div(numb1, numb2, accuracy = 1){
 	return __number_div__(numb1, numb2, accuracy);
 }
 
+function number_power(numb1, numb2, accuracy = 1){
+	return __number_power__(numb1, numb2, accuracy)
+}
+
 function number_div_int(numb1, numb2){
 	return __number_div_int__(numb1, numb2);
 }
@@ -204,7 +208,7 @@ function __number_power__(numb,pow,accuracy = 1){
 		for(var i = pow.fract_length; i < array_length(pow.num); i++){
 			repeat(power(2147483647,i)){
 				repeat(pow.num[i]){
-					_result_numb = __number_div__(_result_numb,numb,0);
+					_result_numb = __number_div__(_result_numb,numb,accuracy);
 				}
 			}
 		}
@@ -422,7 +426,7 @@ function __number_cmp__(numb1,numb2){
 
 function __number_clip__(numb,accuracy = 0){
 	numb = variable_clone(numb);
-	for(var i = array_length(numb.num)-1; i > numb.fract_length-1; i--){
+	for(var i = array_length(numb.num)-1; i > numb.fract_length; i--){
 		if(numb.num[i] != 0){
 			break;
 		}
