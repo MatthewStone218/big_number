@@ -1,7 +1,7 @@
 /// @description 여기에 설명 삽입
 // 이 에디터에 코드를 작성할 수 있습니다
 show_message($"{number_div(number(4),number(0.5))}")
-show_message(number_power(number(1000000000),number(-1),0))
+show_message(number_power(number(1000000000),number(-1),1))
 show_message(
 	number_string_bin(
 		number("12222222222222222222")
