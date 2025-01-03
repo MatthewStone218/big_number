@@ -1,13 +1,13 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\matt\\Desktop\\physia\\gm_big_number\\binary_translate\\binary_translator\\",
+  "WorkspaceRootPath": "C:\\Users\\matt\\Desktop\\physia\\big_number\\binary_translate\\binary_translator\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{7811CB2D-23D8-45AC-A5B0-B77C579BF876}|binary_translator.csproj|c:\\users\\matt\\desktop\\physia\\gm_big_number\\binary_translate\\binary_translator\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{7811CB2D-23D8-45AC-A5B0-B77C579BF876}|binary_translator.csproj|c:\\users\\matt\\desktop\\physia\\big_number\\binary_translate\\binary_translator\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{7811CB2D-23D8-45AC-A5B0-B77C579BF876}|binary_translator.csproj|solutionrelative:mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{7811CB2D-23D8-45AC-A5B0-B77C579BF876}|binary_translator.csproj|C:\\Users\\matt\\Desktop\\physia\\gm_big_number\\binary_translate\\binary_translator\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "AbsoluteMoniker": "D:0:0:{7811CB2D-23D8-45AC-A5B0-B77C579BF876}|binary_translator.csproj|C:\\Users\\matt\\Desktop\\physia\\big_number\\binary_translate\\binary_translator\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
       "RelativeMoniker": "D:0:0:{7811CB2D-23D8-45AC-A5B0-B77C579BF876}|binary_translator.csproj|solutionrelative:mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     }
   ],
@@ -24,9 +24,9 @@
               "$type": "Document",
               "DocumentIndex": 1,
               "Title": "MainWindow.xaml",
-              "DocumentMoniker": "C:\\Users\\matt\\Desktop\\physia\\gm_big_number\\binary_translate\\binary_translator\\MainWindow.xaml",
+              "DocumentMoniker": "C:\\Users\\matt\\Desktop\\physia\\big_number\\binary_translate\\binary_translator\\MainWindow.xaml",
               "RelativeDocumentMoniker": "MainWindow.xaml",
-              "ToolTip": "C:\\Users\\matt\\Desktop\\physia\\gm_big_number\\binary_translate\\binary_translator\\MainWindow.xaml",
+              "ToolTip": "C:\\Users\\matt\\Desktop\\physia\\big_number\\binary_translate\\binary_translator\\MainWindow.xaml",
               "RelativeToolTip": "MainWindow.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
               "WhenOpened": "2024-12-26T10:22:38.215Z",
@@ -36,11 +36,11 @@
               "$type": "Document",
               "DocumentIndex": 0,
               "Title": "MainWindow.xaml.cs",
-              "DocumentMoniker": "C:\\Users\\matt\\Desktop\\physia\\gm_big_number\\binary_translate\\binary_translator\\MainWindow.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\matt\\Desktop\\physia\\big_number\\binary_translate\\binary_translator\\MainWindow.xaml.cs",
               "RelativeDocumentMoniker": "MainWindow.xaml.cs",
-              "ToolTip": "C:\\Users\\matt\\Desktop\\physia\\gm_big_number\\binary_translate\\binary_translator\\MainWindow.xaml.cs",
+              "ToolTip": "C:\\Users\\matt\\Desktop\\physia\\big_number\\binary_translate\\binary_translator\\MainWindow.xaml.cs",
               "RelativeToolTip": "MainWindow.xaml.cs",
-              "ViewState": "AgIAAIQAAAAAAAAAAAAtwKYAAAAZAAAAAAAAAA==",
+              "ViewState": "AgIAAKwAAAAAAAAAAAAuwLgAAAAuAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-12-26T10:02:59.136Z",
               "EditorCaption": ""

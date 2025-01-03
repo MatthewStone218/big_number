@@ -158,9 +158,18 @@ namespace binary_translator
                     }
                 }
 
+                string _result = "";
+
+                while (_result.Length < 31- binaryStr.Length)
+                {
+                    _result += "0";
+                }
+
+                _result += decimalValue.ToString(CultureInfo.InvariantCulture).TrimStart('0');
+
                 // 결과를 문자열로 변환하고 "0."을 접두사로 붙입니다.
                 // Decimal 객체는 자동으로 "0."을 포함하지 않으므로 직접 추가해야 합니다.
-                return "0" + decimalValue.ToString(CultureInfo.InvariantCulture).TrimStart('0');
+                return "0" + _result;
             }
             catch (Exception e)
             {
@@ -185,6 +194,7 @@ namespace binary_translator
             {
                 source_box.Text = BinaryToDecimal(translate_result_box.Text);
             }
+            lable_bit.Content = translate_result_box.Text.Length;
         }
         private void SourceBox_Text_Changed(object sender, TextChangedEventArgs e)
         {

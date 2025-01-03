@@ -10,6 +10,7 @@
         <TextBox x:Name="source_box" HorizontalAlignment="Center" Height="72" Margin="0,117,0,0" TextWrapping="Wrap" Text= "" VerticalAlignment="Top" Width="324" Background="#FFFFE8E8" TextChanged="SourceBox_Text_Changed"/>
         <TextBox x:Name="translate_result_box" HorizontalAlignment="Left" Height="82" Margin="60,238,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="324" Background="#FFFFE8E8" TextChanged="ResultBox_Text_Input"/>
         <TextBox x:Name="translate_result_box_fract" HorizontalAlignment="Left" Height="82" Margin="417,238,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="324" Background="#FFFFE8E8"/>
+        <Label x:Name="lable_bit" Content="0" HorizontalAlignment="Center" Margin="0,52,0,0" VerticalAlignment="Top"/>
 
     </Grid>
 </Window>
