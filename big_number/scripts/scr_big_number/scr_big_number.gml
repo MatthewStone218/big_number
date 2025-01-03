@@ -373,10 +373,9 @@ function __number_sub__(numb1,numb2){
 	array_insert(numb2.num,0,0);
 	numb1.fract_length = _max_fract_length+1;
 	numb2.fract_length = _max_fract_length+1;
-	show_message($"{numb1}\n\n{numb2}");
 	
 	var _result_num = number(0);
-	_result_num.num_sign = numb1.num_sign*__number_cmp__(numb1,numb2);
+	_result_num.num_sign = __number_cmp__(numb1,numb2);
 	_result_num.fract_length = numb1.fract_length;
 	
 	var _overed_value = int64(0);
@@ -396,7 +395,11 @@ function __number_sub__(numb1,numb2){
 }
 
 function __number_cmp__(numb1,numb2){
-	var _balance = array_length(numb1.num)-numb1.fract_length - array_length(numb2.num)-numb2.fract_length;
+	if(numb1.num_sign != numb2.num_sign){
+		return numb1.num_sign - numb2.num_sign;
+	}
+	
+	var _balance = (array_length(numb1.num)-numb1.fract_length) - (array_length(numb2.num)-numb2.fract_length);
 	
 	if(_balance != 0){
 		return sign(_balance);
@@ -407,7 +410,7 @@ function __number_cmp__(numb1,numb2){
 		if(_numb2_idx < 0){return 1;}
 		var _balance = numb1.num[i]-numb2.num[i];
 		if(_balance != 0){
-			return _balance;
+			return sign(_balance);
 		}
 		_numb2_idx--;
 	}
