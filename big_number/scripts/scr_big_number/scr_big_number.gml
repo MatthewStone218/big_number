@@ -282,7 +282,9 @@ function __number_reciprocal__(numb, accuracy){
 	}
 	
 	var _result_num = number(0);
-	var _pos_approximation = numb.fract_length*31 - a*31 - b - 1;
+	var _pos_approximation = numb.fract_length*31 - a*31 - b - 1;//31 - 0 - 30
+	
+	show_message(_pos_approximation)
 	
 	if(_pos_approximation >= 0){
 		_result_num.fract_length = 0;
@@ -297,10 +299,9 @@ function __number_reciprocal__(numb, accuracy){
 		}
 		_result_num.num[0] = (1 << 31) >> (abs(_pos_approximation) mod 31);
 	}
-	
 	_result_num.num_sign = 1;
 	var _numb_2 = number(2);
-	
+	show_message(_result_num)
 	for(var i = 0; i < 8; i++){
 		_result_num = __number_multiply__(_result_num, __number_sub__(_numb_2, __number_multiply__(numb, _result_num, accuracy)), accuracy);
 	}
@@ -423,7 +424,7 @@ function __number_clip__(numb,fract_length = 0){
 	}
 	
 	if(fract_length > 0){
-		array_delete(numb,0,numb.fract_length-fract_length);
+		array_delete(numb.num,0,numb.fract_length-fract_length);
 		numb.fract_length -= numb.fract_length-fract_length;
 	}
 	
