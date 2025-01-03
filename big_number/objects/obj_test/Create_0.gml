@@ -7,9 +7,7 @@ show_message(
 	number("12222222222222222222")
 )
 show_message(
-	number_string_bin(
-		number_reciprocal(number(0.33333), 0)
-	)
+	number_reciprocal(number(0.33333), 0)
 )
 show_message(
 	number_string_bin(

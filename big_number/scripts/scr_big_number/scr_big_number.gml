@@ -66,7 +66,7 @@ function __number__(num) constructor {
 			var _sumed_num = __number_sum__(self,__number_multiply__(number(real(string_copy(num,i+1,10))),__number_power__(number(1000000000),number(_pow), _accuracy), _accuracy));
 			self.num = _sumed_num.num;
 			self.fract_length = _sumed_num.fract_length;
-			//show_message($"[][][]\n{__number_multiply__(number(real(string_copy(num,i+1,10))),__number_power__(number(1000000000),number(_pow)))}\n{number(real(string_copy(num,i+1,10)))}*{__number_power__(number(1000000000),number(_pow))}\n{1000000000}^{_pow}")
+			show_message($"[][][]\n{__number_multiply__(number(real(string_copy(num,i+1,10))),__number_power__(number(1000000000),number(_pow)))}\n{number(real(string_copy(num,i+1,10)))}*{__number_power__(number(1000000000),number(_pow))}\n{1000000000}^{_pow}")
 			_pow--;
 		}
 		
@@ -222,7 +222,7 @@ function __number_power__(numb,pow,accuracy = 1){
 			}
 		}
 	}
-	show_message($"{numb}\n^{pow} = \n\n{_result_numb}\n\n{numb}\n^{pow} = \n\n{_result_numb}")
+	//show_message($"{numb}\n^{pow} = \n\n{_result_numb}\n\n{numb}\n^{pow} = \n\n{_result_numb}")
 	return _result_numb;
 }
 
