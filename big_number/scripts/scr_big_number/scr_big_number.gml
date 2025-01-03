@@ -61,10 +61,10 @@ function __number__(num) constructor {
 		
 		var _pow = (_dot_pos-2) div 10;
 		
-		for(var i = 0; i < string_length(num); i += 10){
-			var _sumed_num = __number_sum__(self,__number_multiply__(number(real(string_copy(num,i+1,10))),__number_power__(number(1000000000),number(_pow)),0)).num;
+		for(var i = 0; i < string_length(num)-1; i += 10){
+			var _sumed_num = __number_sum__(self,__number_multiply__(number(real(string_copy(num,i+1,10))),__number_power__(number(1000000000),number(_pow)),0));
 			self.num = _sumed_num.num;
-			self.num.fract_length = _sumed_num.fract_length;
+			self.fract_length = _sumed_num.fract_length;
 			show_message($"[][][]\n{__number_multiply__(number(real(string_copy(num,i+1,10))),__number_power__(number(1000000000),number(_pow)))}\n{number(real(string_copy(num,i+1,10)))}*{__number_power__(number(1000000000),number(_pow))}\n{1000000000}^{_pow}")
 			_pow--;
 		}
@@ -183,51 +183,47 @@ function __number_multiply__(numb1,numb2,accuracy){
 	return _result_num;
 }
 
-function __number_power__(numb,pow){
+function __number_power__(numb,pow,accuracy = 1){
 	numb = variable_clone(numb);
 	var _result_numb = number(1);
+	if(array_length(pow.num)-pow.fract_length > 1){show_error("big number: __number_power__ argument1 is too big?",true);}
 	
-	if(pow >= 0){
-		for(var i = 0; i < array_length(pow.num)-pow.fract_length; i++){
-			if(i > 0){show_error("big number: __number_power__ argument1 is too big?",true);}
+	if(pow.num_sign >= 0){
+		for(var i = pow.fract_length; i < array_length(pow.num); i++){
 			repeat(power(2147483647,i)){
 				repeat(pow.num[i]){
-					_result_numb = __number_multiply__(_result_numb,numb);
+					_result_numb = __number_multiply__(_result_numb,numb,accuracy);
 				}
 			}
 		}
 	} else {
-		for(var i = 0; i < array_length(pow.num)-pow.fract_length; i++){
-			if(i > 0){show_error("big number: __number_power__ argument1 is too big?",true);}
+		for(var i = pow.fract_length; i < array_length(pow.num); i++){
 			repeat(power(2147483647,i)){
 				repeat(pow.num[i]){
-					_result_numb = __number_div__(_result_numb,numb);
+					_result_numb = __number_div__(_result_numb,numb,0);
 				}
 			}
 		}
 	}
-	//_result_num = __number_clip__(_result_num); 곱,나눗셈에서 이미 클리핑 됨.
-	
+	show_message($"{numb}\n^{pow} = \n\n{_result_numb}\n\n{numb}\n^{pow} = \n\n{number_string_bin(_result_numb)}")
 	return _result_numb;
 }
 
-function __number_div__(numb1,numb2){
+function __number_div__(numb1,numb2,accuracy = 1){
 	var _result_num = number(0);
-	_result_num = __number_multiply__(numb1,__number_reciprocal__(numb2));
-	//_result_num = __number_clip__(_result_num); 곱에서 이미 클리핑 됨.
+	_result_num = __number_multiply__(numb1,__number_reciprocal__(numb2,accuracy),accuracy);
 	return _result_num;
 }
 
-function __number_div_int__(numb1,numb2){
+function __number_div_int__(numb1,numb2,accuracy = 1){
 	var _result_num = number(0);
-	_result_num = __number_multiply__(numb1,__number_reciprocal__(numb2));
-	//_result_num = __number_clip__(_result_num); 곱에서 이미 클리핑 됨.
+	_result_num = __number_multiply__(numb1,__number_reciprocal__(numb2,accuracy),accuracy);
 	_result_num = __number_int__(_result_num);
 	return _result_num;
 }
 
-function __number_mod__(numb1, numb2){
-	return __number_sub__(numb1,__number_multiply__(__number_int__(__number_div__(numb1,numb2)), numb2));
+function __number_mod__(numb1, numb2, accuracy = 1){
+	return __number_sub__(numb1,__number_multiply__(__number_int__(__number_div__(numb1,numb2,accuracy)), numb2, accuracy));
 }
 
 function __number_round__(numb){
@@ -431,10 +427,9 @@ function __number_clip__(numb,fract_length = 0){
 		numb.fract_length--;
 		i--;
 	}
-	
 	if(fract_length > 0){
-		array_delete(numb.num,0,numb.fract_length-fract_length);
-		numb.fract_length -= numb.fract_length-fract_length;
+		array_delete(numb.num,0,max(numb.fract_length-fract_length,numb.fract_length));
+		numb.fract_length -= max(0,numb.fract_length-fract_length);
 	}
 	
 	for(var i = array_length(numb.num)-1; i > numb.fract_length; i--){
