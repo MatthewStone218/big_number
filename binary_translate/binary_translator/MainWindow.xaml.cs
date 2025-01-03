@@ -150,7 +150,7 @@ namespace binary_translator
                     if (bit == '1')
                     {
                         // 각 비트의 위치에 따라 값을 더합니다.
-                        decimalValue += 1m / (Pow(two, i + 1 + (31 - binaryStr.Length)));
+                        decimalValue += 1m / (Pow(two, i + 1 + (binaryStr.Length < 31 ? (31 - binaryStr.Length) : 0)));
                     }
                     else if (bit != '0')
                     {

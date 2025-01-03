@@ -178,7 +178,6 @@ function __number_multiply__(numb1,numb2,accuracy){
 				_temp_number.num[iii] = 0;
 			}
 			_temp_number.num[_result_num.fract_length+_pos] = _val & 0b000000000000000000000000000000001111111111111111111111111111111;
-			show_message(_temp_number.num[_result_num.fract_length+_pos])
 			_temp_number.num[_result_num.fract_length+_pos+1] = _val >> 31;
 			_temp_number.fract_length = _result_num.fract_length;
 			_result_num = __number_sum__(_result_num,_temp_number);
