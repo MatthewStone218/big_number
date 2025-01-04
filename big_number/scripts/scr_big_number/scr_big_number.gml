@@ -256,7 +256,7 @@ function __number_div_int__(numb1,numb2,accuracy = 1){
 }
 
 function __number_mod__(numb1, numb2, accuracy = 0){
-	return __number_sub__(numb1,__number_multiply__(__number_int__(__number_div__(numb1,numb2,accuracy)), numb2, accuracy));
+	return __number_sub__(numb1,__number_multiply__(__number_round__(__number_div__(numb1,numb2,accuracy)), numb2, accuracy));
 }
 
 function __number_round__(numb){
