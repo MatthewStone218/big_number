@@ -102,7 +102,7 @@ function number_string_dec(numb,fract_accuracy = 1){
 	var _numb_10 = number(10);
 	
 	do {
-		var _num = __number_int__(__number_div__(__number_mod__(__number_int__(numb),_mult),_mult2));show_message($"{__number_mod__(__number_int__(numb),_mult)}\n\n{__number_int__(numb)}\n{_mult}")
+		var _num = __number_int__(__number_div__(__number_mod__(__number_int__(numb),_mult),_mult2));//show_message($"{__number_mod__(__number_int__(numb),_mult)}\n\n{__number_int__(numb)}\n{_mult}")
 		_str = string_insert(string_format(_num.num[0],0,0),_str,0);
 		_mult2 = variable_clone(_mult);
 		_mult = __number_multiply__(_mult,_numb_10);
