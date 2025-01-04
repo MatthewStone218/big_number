@@ -66,8 +66,7 @@ function __number__(num) constructor {
 		
 		var _lowest_pow = _pow-((string_length(num)-1) div 9);
 		var _accuracy = max(-_lowest_pow+1,2);
-		var _final_accuracy = _accuracy-1;
-		for(var i = 0; i < string_length(num)-1; i += 9){
+		for(var i = 0; i < string_length(num); i += 9){
 			var _sumed_num = __number_sum__(self,__number_multiply__(number(real(string_copy(num,i+1,9))),__number_power__(number(1000000000),number(_pow), _accuracy), _accuracy));
 			self.num = _sumed_num.num;
 			self.fract_length = _sumed_num.fract_length;
@@ -77,9 +76,6 @@ function __number__(num) constructor {
 		if(self.fract_length == 0 && array_length(self.num) == 1 && self.num[0] == 0){
 			self.num_sign = 0;
 		}
-		var _clipped_numb = __number_accuracy_round__(self,_final_accuracy);
-		self.num = _clipped_numb.num;
-		self.fract_length = _clipped_numb.fract_length;
 	}
 }
 
