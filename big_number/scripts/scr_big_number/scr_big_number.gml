@@ -98,6 +98,7 @@ function number_string_bin(numb){
 }
 
 function number_string_dec(numb,accuracy = 4){
+	numb = variable_clone(numb);
 	var _str = numb.num_sign == -1 ? "-" : "";
 	var _digit = 0;
 	
@@ -106,15 +107,16 @@ function number_string_dec(numb,accuracy = 4){
 		var _digit_num = __number_power__(number(10),number(_digit));
 		var _num = __number_round__(__number_div__(__number_mod__(__number_int__(numb),_digit_num_up),_digit_num));
 		_str = string_insert(string_format(_num.num[0],0,0),_str,0);
-		_digit += 1;
+		_digit++;
 	} until (__number_cmp__(numb,__number_power__(number(10),number(_digit))) >= 0)
 	
-	var _digit = -1;
-	for(var i = 0; i < fract_length; i++){
-		var _pow = __number_power__(number(10), _digit);
-		var _num = __number_int__(__number_mod__(__number_multiply__(numb, _pow),number(10)));
-		_str += _num.num[0];
-		_digit -= 1;
+	if(numb.fract_length > 0){
+		var _digit = 1;
+		while(_digit <= numb.fract_length && accuracy >= numb.fract_length){
+			var _mult = __number_int__(__number_round__(__number_multiply__(numb,__number_power__(number(10),_digit))));
+			_str = string_insert(string_format(_mult.num[0],0,0),_str,0);
+			_digit++;
+		}
 	}
 	
 	return _str;
