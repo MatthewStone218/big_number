@@ -5,7 +5,7 @@
 
 show_message(
 	//number_string_bin(
-		number("2.5555555")
+		number("2.12341234123412341234123412341234")
 	//)
 )
 show_message(
