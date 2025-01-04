@@ -106,18 +106,21 @@ function number_string_dec(numb,accuracy = 1){
 	var _numb_10 = number(10);
 	
 	do {
-		var _num = __number_round__(__number_div__(__number_mod__(__number_int__(numb),__number_multiply__(_mult,_numb_10)),_mult2));
+		var _num = __number_int__(__number_div__(__number_mod__(__number_int__(numb),_mult),_mult2));
 		_str = string_insert(string_format(_num.num[0],0,0),_str,0);
+		_mult2 = variable_clone(_mult);
 		_mult = __number_multiply__(_mult,_numb_10);
-	} until (__number_cmp__(numb,_mult) < 0)
+	} until (__number_cmp__(numb,_mult2) < 0)
+	
 	var _fract_size = __number_multiply__(number("2147483648"),number(numb.fract_length));
 	var _mult = number(10);
+	
+	_str += ".";
+	
 	while(__number_cmp__(_fract_size, _mult) >= 0){
 		var _num = __number_int__(__number_round__(__number_multiply__(numb,_mult)));
 		_str += string_format(_num.num[0],0,0);
-		_mult2 = __number_multiply__(_mult2,_numb_10);
-		_mult = variable_clone(_mult2);
-	show_message(_str);
+		_mult = __number_multiply__(_mult,_numb_10);
 	}
 		
 	return _str;
