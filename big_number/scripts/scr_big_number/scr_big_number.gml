@@ -109,16 +109,23 @@ function number_string_dec(numb,fract_accuracy = 1){
 	} until (__number_cmp__(numb,_mult2) < 0)
 	
 	var _fract_size = __number_multiply__(number("2147483648"),number(min(numb.fract_length,fract_accuracy)));
-	var _mult = number(10);
 	
 	_str += ".";
 	
-	while(__number_cmp__(_fract_size, _mult) >= 0){
-		var _num = __number_int__(__number_round__(__number_multiply__(__number_fract__(numb),_mult)));
+	var i = 0;
+	var _mult_str = "1";
+	
+	while(__number_cmp__(_fract_size, _mult) >= 0 && fract_accuracy > i){
+		var _num = __number_mod__(numb,number(_mult_str));
 		_str += string_format(_num.num[0],0,0);
-		_mult = __number_multiply__(_mult,_numb_10);
+		if(i == 0){
+			_mult_str = "0.1";
+		} else {
+			_mult_str = string_insert("0",_mult_str,2);
+		}
+		i++;
 	}
-		
+	
 	return _str;
 }
 
