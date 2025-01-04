@@ -51,8 +51,8 @@ function __number__(num) constructor {
 			_dot_pos = string_length(num)+1;
 		}
 		
-		_additional_digit = (10 - _dot_pos) mod 9;
-		_additional_fract = (9 - (string_length(num) - _dot_pos)) mod 9;
+		_additional_digit = (9 - ((_dot_pos - 1) mod 9));
+		_additional_fract = (9 - ((string_length(num) - _dot_pos) mod 9));
 		
 		repeat(_additional_digit){
 			num = string_insert("0",num,0);
