@@ -42,31 +42,37 @@ function __number__(num) constructor {
 		}
 		
 		var _dot_pos = string_pos(".",num);
-		var _additional_digit = 10 - ((_dot_pos-1) mod 10);
-		var _additional_fract = 10 - ((string_length(num) - _dot_pos) mod 10)
+		var _additional_digit;
+		var _additional_fract;
 		var _pow;
 		
 		if(_dot_pos != 0){
 			num = string_delete(num,_dot_pos,1);
-			_pow = (_dot_pos-2) div 10;
-			repeat(_additional_digit){
-				num = string_insert("0",num,0);
-			}
-			repeat(_additional_fract){
-				num += "0";
-			}
 		} else {
-			_pow = (string_length(num)-1) div 10;
+			_dot_pos = string_length(num)+1;
+			_pow = (string_length(num)-1) div 9;
 		}
 		
-		var _lowest_pow = _pow-((string_length(num)-1) div 10)+1;
-		var _accuracy = -_lowest_pow+1;
+		_pow = (_dot_pos-2) div 9;
+		_additional_digit = 9 - ((_dot_pos-1) mod 9);
+		_additional_fract = 9 - ((string_length(num) - _dot_pos) mod 9)
+
+		repeat(_additional_digit){
+			num = string_insert("0",num,0);
+		}
+		repeat(_additional_fract){
+			num += "0";
+		}
 		
-		for(var i = 0; i < string_length(num)-1; i += 10){
-			var _sumed_num = __number_sum__(self,__number_multiply__(number(real(string_copy(num,i+1,10))),__number_power__(number(1000000000),number(_pow), _accuracy), _accuracy));
+		var _lowest_pow = _pow-(((string_length(num)-1) div 9)+1);
+		var _accuracy = -ceil(_lowest_pow)+1;
+		
+		for(var i = 0; i < string_length(num)-1; i += 9){
+			//show_message($"aaa\n{string_copy(num,i+1,9)}")
+			var _sumed_num = __number_sum__(self,__number_multiply__(number(real(string_copy(num,i+1,9))),__number_power__(number(1000000000),number(_pow), _accuracy), _accuracy));
 			self.num = _sumed_num.num;
 			self.fract_length = _sumed_num.fract_length;
-			show_message($"[][][]\n{__number_multiply__(number(real(string_copy(num,i+1,10))),__number_power__(number(1000000000),number(_pow)))}\n{number(real(string_copy(num,i+1,10)))}*{__number_power__(number(1000000000),number(_pow))}\n{1000000000}^{_pow}")
+			//show_message($"[][][]\n{__number_multiply__(number(real(string_copy(num,i+1,9))),__number_power__(number(1000000000),number(_pow)))}\n{number(real(string_copy(num,i+1,9)))}*{__number_power__(number(1000000000),number(_pow))}\n{1000000000}^{_pow}")
 			_pow--;
 		}
 		
@@ -188,6 +194,7 @@ function __number_multiply__(numb1,numb2,accuracy){
 			for(var iii = 0; iii < abs(_pos)+1; iii++){
 				_temp_number.num[iii] = 0;
 			}
+			
 			_temp_number.num[_result_num.fract_length+_pos] = _val & 0b000000000000000000000000000000001111111111111111111111111111111;
 			_temp_number.num[_result_num.fract_length+_pos+1] = _val >> 31;
 			_temp_number.fract_length = _result_num.fract_length;
