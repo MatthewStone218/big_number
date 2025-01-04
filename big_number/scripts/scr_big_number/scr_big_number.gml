@@ -102,7 +102,7 @@ function number_string_dec(numb,show_fract = 1){
 	var _numb_10 = number(10);
 	
 	do {
-		var _num = __number_int__(__number_div__(__number_mod__(__number_int__(numb),_mult,1),_mult2,1));//show_message($"{__number_mod__(__number_int__(numb),_mult)}\n\n{__number_int__(numb)}\n{_mult}")
+		var _num = __number_int__(__number_div__(__number_mod__(__number_int__(numb),_mult),_mult2,1));//show_message($"{__number_mod__(__number_int__(numb),_mult)}\n\n{__number_int__(numb)}\n{_mult}")
 		_str = string_insert(string_format(_num.num[0],0,0),_str,0);
 		_mult2 = variable_clone(_mult);
 		_mult = __number_multiply__(_mult,_numb_10,1);
@@ -275,18 +275,13 @@ function __number_mod__(numb1, numb2, accuracy = 0){
 		return numb1;
 	}
 	
-	var _quotient_approximation = __number_int__(__number_div__(numb1,numb2,accuracy));
-	var _accumulate = __number_multiply__(_quotient_approximation, numb2, accuracy);
-	var _cmp;
+	var _div_result = __number_div__(numb1,numb2,accuracy);
 	
-	do{
-		_accumulate = __number_sum__(_accumulate, numb2);
-		_cmp = __number_cmp__(_accumulate,numb1);
-	} until(_cmp >= 0)
-	
-	_accumulate = __number_sub__(_accumulate, numb2);
-	
-	return __number_sub__(numb1, _accumulate);
+	if(__number_cmp__(__number_multiply__(number(2),number(numb1)), __number_multiply__(numb2, __number_sum__(__number_multiply__(number(2), _div_result), 1)))){
+		return __number_sub__(numb1,__number_multiply__(__number_ceil__(_div_result), numb2, accuracy));
+	} else {
+		return __number_sub__(numb1,__number_multiply__(__number_int__(_div_result), numb2, accuracy));
+	}
 }
 
 function __number_round__(numb){
@@ -295,6 +290,21 @@ function __number_round__(numb){
 	if(numb.fract_length >= 1){
 		var _fract = numb.num[numb.fract_length-1];
 		if(_fract & (0b1000000000000000000000000000000)){
+			numb = __number_sum__(numb,number(1));
+		}
+	
+		array_delete(numb.num,0,numb.fract_length);
+		numb.fract_length = 0;
+	}
+	return numb;
+}
+
+function __number_ceil__(numb){
+	numb = variable_clone(numb);
+	
+	if(numb.fract_length >= 1){
+		var _fract = numb.num[numb.fract_length-1];
+		if((_fract & (0b0000000000000000000000000000000)) != 0){
 			numb = __number_sum__(numb,number(1));
 		}
 	
