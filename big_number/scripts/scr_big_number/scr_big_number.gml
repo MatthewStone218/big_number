@@ -101,11 +101,11 @@ function number_string_dec(numb,show_fract = 1){
 	var _mult2 = number(1);
 	var _numb_10 = number(10);
 	
-	do {
-		var _num = __number_int__(__number_div__(__number_mod__(__number_int__(numb),_mult),_mult2,1));//show_message($"{__number_mod__(__number_int__(numb),_mult)}\n\n{__number_int__(numb)}\n{_mult}")
+	do {//show_message($"{__number_mod__(__number_int__(numb),_mult)}\n\n{__number_int__(numb)}\n\n{_mult}")
+		var _num = __number_int__(__number_div__(__number_mod__(__number_int__(numb),_mult,10),_mult2,10));//show_message($"{__number_mod__(__number_int__(numb),_mult)}\n\n{__number_int__(numb)}\n{_mult}")
 		_str = string_insert(string_format(_num.num[0],0,0),_str,0);
 		_mult2 = variable_clone(_mult);
-		_mult = __number_multiply__(_mult,_numb_10,1);
+		_mult = __number_multiply__(_mult,_numb_10);
 	} until (__number_cmp__(numb,_mult2) < 0)
 	
 	if(show_fract){_str += ".";}
@@ -277,7 +277,7 @@ function __number_mod__(numb1, numb2, accuracy = 0){
 	
 	var _div_result = __number_div__(numb1,numb2,accuracy);
 	
-	if(__number_cmp__(__number_multiply__(number(2),number(numb1)), __number_multiply__(numb2, __number_sum__(__number_multiply__(number(2), _div_result), 1)))){
+	if(__number_cmp__(__number_multiply__(number(2),numb1), __number_multiply__(numb2, __number_sum__(__number_multiply__(number(2), _div_result, accuracy), number(1)))) >= 0){
 		return __number_sub__(numb1,__number_multiply__(__number_ceil__(_div_result), numb2, accuracy));
 	} else {
 		return __number_sub__(numb1,__number_multiply__(__number_int__(_div_result), numb2, accuracy));
@@ -334,7 +334,7 @@ function __number_reciprocal__(numb, accuracy){
 	numb = variable_clone(numb);
 	if(accuracy != 0){
 		if(array_length(numb.num)-numb.fract_length > accuracy){
-			return 0;
+			return number(0);
 		}
 	} else {
 		accuracy = max(array_length(numb.num)-numb.fract_length, numb.fract_length)+1;
