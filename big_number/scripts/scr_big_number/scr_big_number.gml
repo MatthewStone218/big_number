@@ -102,7 +102,7 @@ function number_string_dec(numb,fract_accuracy = 1){
 	var _numb_10 = number(10);
 	
 	do {
-		var _num = __number_int__(__number_div__(__number_mod__(__number_int__(numb),_mult),_mult2));show_message(__number_mod__(__number_int__(numb),_mult))
+		var _num = __number_int__(__number_div__(__number_mod__(__number_int__(numb),_mult),_mult2));show_message($"{__number_mod__(__number_int__(numb),_mult)}\n\n{__number_int__(numb)}\n{_mult}")
 		_str = string_insert(string_format(_num.num[0],0,0),_str,0);
 		_mult2 = variable_clone(_mult);
 		_mult = __number_multiply__(_mult,_numb_10);
@@ -259,14 +259,28 @@ function __number_div_int__(numb1,numb2,accuracy = 1){
 }
 
 function __number_mod__(numb1, numb2, accuracy = 0){
+	numb1 = variable_clone(numb1);
+	numb2 = variable_clone(numb2);
+	
 	var _cmp = __number_cmp__(numb1,numb2);
 	if(_cmp == 0){
-		return 0;
-	} else if(_cmp == 1){
-		return __number_sub__(numb1,__number_multiply__(__number_round__(__number_div__(numb1,numb2,accuracy)), numb2, accuracy));
-	} else {
+		return number(0);
+	} else if(_cmp == -1){
 		return numb1;
 	}
+	
+	var _quotient_approximation = __number_int__(__number_div__(numb1,numb2,accuracy));
+	var _accumulate = __number_multiply__(_quotient_approximation, numb2, accuracy);
+	var _cmp;
+	
+	do{
+		_accumulate = __number_sum__(_accumulate, numb2);
+		_cmp = __number_cmp__(_accumulate,numb1);
+	} until(_cmp >= 0)
+	
+	_accumulate = __number_sub__(_accumulate, numb2);
+	
+	return _accumulate;
 }
 
 function __number_round__(numb){
