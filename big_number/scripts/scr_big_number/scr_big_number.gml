@@ -278,8 +278,9 @@ function __number_mod__(numb1, numb2, accuracy = 0){
 		_cmp = __number_cmp__(_accumulate,numb1);
 	} until(_cmp >= 0)
 	
-	return __number_sub__(numb1, _accumulate);
+	_accumulate = __number_sub__(_accumulate, numb2);
 	
+	return __number_sub__(numb1, _accumulate);
 }
 
 function __number_round__(numb){
