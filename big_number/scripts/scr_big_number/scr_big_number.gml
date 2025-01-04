@@ -110,7 +110,7 @@ function number_string_dec(numb,fract_accuracy = 1){
 	
 	var _fract_size = __number_multiply__(number("2147483648"),number(min(numb.fract_length,fract_accuracy)));
 	
-	_str += ".";
+	if(fract_accuracy > 0){_str += ".";}
 	
 	var i = 0;
 	var _mult = number(10);
@@ -127,6 +127,14 @@ function number_string_dec(numb,fract_accuracy = 1){
 		
 		_mult = __number_multiply__(_mult,number(10));
 		i++;
+	}
+	
+	while(string_char_at(_str,string_length(_str)) == "0"){
+		_str = string_delete(_str,string_length(_str),1);
+		if(string_char_at(_str,string_length(_str)) == "."){
+			_str = string_delete(_str,string_length(_str),1);
+			break;
+		}
 	}
 	
 	return _str;
