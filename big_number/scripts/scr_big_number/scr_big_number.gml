@@ -97,23 +97,23 @@ function number_string_bin(numb){
 	return _str;
 }
 
-function number_string_dec(numb,fract_length = 4){
+function number_string_dec(numb,accuracy = 4){
 	var _str = numb.num_sign == -1 ? "-" : "";
-	var _digit = 1;
+	var _digit = 0;
 	
 	do {
-		var _pow1 = __number_power__(number(10),number(_digit));
-		var _pow2 = __number_power__(number(10),number(_digit-1));
-		var _num = __number_int__(__number_div__(__number_mod__(numb,_pow1),_pow2));
-		_str += string_format(_num.num[0],0,0);
+		var _digit_num_up = __number_power__(number(10),number(_digit+1));
+		var _digit_num = __number_power__(number(10),number(_digit));
+		var _num = __number_round__(__number_div__(__number_mod__(__number_int__(numb),_digit_num_up),_digit_num));
+		_str = string_insert(string_format(_num.num[0],0,0),_str,0);
 		_digit += 1;
 	} until (__number_cmp__(numb,__number_power__(number(10),number(_digit))) >= 0)
 	
-	var _digit = 1;
+	var _digit = -1;
 	for(var i = 0; i < fract_length; i++){
 		var _pow = __number_power__(number(10), _digit);
 		var _num = __number_int__(__number_mod__(__number_multiply__(numb, _pow),number(10)));
-		_str += string_format(_num.num[0],0,0);
+		_str += _num.num[0];
 		_digit -= 1;
 	}
 	
@@ -168,6 +168,10 @@ function number_round(numb){
 	return __number_round__(numb);
 }
 
+function number_clip(numb,accuracy = 0){
+	__number_clip__(numb,accuracy);
+}
+
 function __number_multiply__(numb1,numb2,accuracy){
 	numb1 = variable_clone(numb1);
 	numb2 = variable_clone(numb2);
@@ -218,7 +222,7 @@ function __number_power__(numb,pow,accuracy = 1){
 	return _result_numb;
 }
 
-function __number_div__(numb1,numb2,accuracy = 1){
+function __number_div__(numb1,numb2,accuracy = 0){
 	var _result_num = number(0);
 	_result_num = __number_multiply__(numb1,__number_reciprocal__(numb2,accuracy),accuracy);
 	return _result_num;
@@ -231,7 +235,7 @@ function __number_div_int__(numb1,numb2,accuracy = 1){
 	return _result_num;
 }
 
-function __number_mod__(numb1, numb2, accuracy = 1){
+function __number_mod__(numb1, numb2, accuracy = 0){
 	return __number_sub__(numb1,__number_multiply__(__number_int__(__number_div__(numb1,numb2,accuracy)), numb2, accuracy));
 }
 
