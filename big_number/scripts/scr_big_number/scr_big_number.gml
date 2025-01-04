@@ -113,16 +113,19 @@ function number_string_dec(numb,fract_accuracy = 1){
 	_str += ".";
 	
 	var i = 0;
+	var _mult = number(10);
 	var _mult_str = "1";
 	
-	while(__number_cmp__(_fract_size, _mult) >= 0 && fract_accuracy > i){
-		var _num = __number_multiply__(__number_mod__(numb,number(_mult_str)),__number_power__(number(10),i+1));
+	while(__number_cmp__(_fract_size, _mult) >= 0 && fract_accuracy*9 > i){
+		var _num = __number_multiply__(__number_mod__(numb,number(_mult_str)),__number_power__(number(10),number(i+1)));
 		_str += string_format(_num.num[_num.fract_length],0,0);
 		if(i == 0){
 			_mult_str = "0.1";
 		} else {
-			_mult_str = string_insert("0",_mult_str,2);
+			_mult_str = string_insert("0",_mult_str,3);
 		}
+		
+		_mult = __number_multiply__(_mult,number(10));
 		i++;
 	}
 	
