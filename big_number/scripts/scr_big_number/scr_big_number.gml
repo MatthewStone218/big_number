@@ -110,7 +110,7 @@ function number_string_dec(numb,accuracy = 1){
 	} until (__number_cmp__(numb,_mult) >= 0)
 	
 	var _fract_size = __number_multiply__(number("2147483648"),number(numb.fract_length));
-	var _mult = number(10);show_message(number("214748364"))
+	var _mult = number(10);show_message($"{_fract_size}\n\n{_mult}\n\n{number("2147483648")}\n{number(numb.fract_length)}")
 	while(__number_cmp__(_fract_size, _mult) >= 0){
 		var _num = __number_int__(__number_round__(__number_multiply__(numb,_mult)));
 		_str += string_format(_num.num[0],0,0);
@@ -185,6 +185,8 @@ function __number_multiply__(numb1,numb2,accuracy = 0){
 	numb2 = variable_clone(numb2);
 	var _result_num = number(0);
 	var _fract_length = numb1.fract_length+numb2.fract_length;
+	
+	_result_num.num_sign = numb1.num_sign*numb2.num_sign;
 	
 	for(var i = 0; i < array_length(numb1.num); i++){
 		for(var ii = 0; ii < array_length(numb2.num); ii++){
@@ -429,7 +431,7 @@ function __number_cmp__(numb1,numb2){
 	var _numb2_idx = array_length(numb2.num)-1;
 	for(var i = array_length(numb1.num)-1; i >= 0; i--){
 		if(_numb2_idx < 0){return 1;}
-		var _balance = numb1.num[i]-numb2.num[i];
+		var _balance = numb1.num[i]-numb2.num[_numb2_idx];
 		if(_balance != 0){
 			return sign(_balance);
 		}
