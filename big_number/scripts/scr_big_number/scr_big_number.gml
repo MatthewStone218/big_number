@@ -98,7 +98,7 @@ function number_string_bin(numb){
 	return _str;
 }
 
-function number_string_dec(numb,accuracy = 1){
+function number_string_dec(numb,fract_accuracy = 1){
 	numb = variable_clone(numb);
 	var _str = numb.num_sign == -1 ? "-" : "";
 	var _mult = number(10);
@@ -112,13 +112,13 @@ function number_string_dec(numb,accuracy = 1){
 		_mult = __number_multiply__(_mult,_numb_10);
 	} until (__number_cmp__(numb,_mult2) < 0)
 	
-	var _fract_size = __number_multiply__(number("2147483648"),number(numb.fract_length));
+	var _fract_size = __number_multiply__(number("2147483648"),number(min(numb.fract_length,fract_accuracy)));
 	var _mult = number(10);
 	
 	_str += ".";
 	
 	while(__number_cmp__(_fract_size, _mult) >= 0){
-		var _num = __number_int__(__number_round__(__number_multiply__(numb,_mult)));
+		var _num = __number_int__(__number_round__(__number_multiply__(__number_fract__(numb),_mult)));
 		_str += string_format(_num.num[0],0,0);
 		_mult = __number_multiply__(_mult,_numb_10);
 	}
@@ -154,8 +154,12 @@ function number_multiply(numb1, numb2, accuracy = 1){
 	return __number_multiply__(numb1, numb2, accuracy);
 }
 
-function number_div(numb1, numb2, accuracy = 1){
+function number_div(numb1, numb2, accuracy = 0){
 	return __number_div__(numb1, numb2, accuracy);
+}
+
+function number_mod(numb1, numb2, accuracy = 0){
+	return __number_mod__(numb1, numb2, accuracy);
 }
 
 function number_power(numb1, numb2, accuracy = 1){
