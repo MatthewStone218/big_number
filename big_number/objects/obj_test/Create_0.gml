@@ -6,7 +6,7 @@
 show_message(
 	//number_string_bin(
 		number_string_dec(
-			number("2.12341234123412341234123412341234")
+			number("1122334455.12341234123412341234123412341234")
 		)
 	//)
 )

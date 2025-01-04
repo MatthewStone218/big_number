@@ -101,20 +101,23 @@ function number_string_bin(numb){
 function number_string_dec(numb,accuracy = 1){
 	numb = variable_clone(numb);
 	var _str = numb.num_sign == -1 ? "-" : "";
-	var _mult = number(1);
+	var _mult = number(10);
+	var _mult2 = number(1);
+	var _numb_10 = number(10);
 	
 	do {
-		var _num = __number_round__(__number_div__(__number_mod__(__number_int__(numb),__number_multiply__(_mult,number(10))),_mult));
+		var _num = __number_round__(__number_div__(__number_mod__(__number_int__(numb),__number_multiply__(_mult,_numb_10)),_mult2));
 		_str = string_insert(string_format(_num.num[0],0,0),_str,0);
-			_mult = __number_multiply__(_mult,number(10));
-	} until (__number_cmp__(numb,_mult) >= 0)
-	
+		_mult = __number_multiply__(_mult,_numb_10);
+	} until (__number_cmp__(numb,_mult) < 0)
 	var _fract_size = __number_multiply__(number("2147483648"),number(numb.fract_length));
-	var _mult = number(10);show_message($"{_fract_size}\n\n{_mult}\n\n{number("2147483648")}\n{number(numb.fract_length)}")
+	var _mult = number(10);
 	while(__number_cmp__(_fract_size, _mult) >= 0){
 		var _num = __number_int__(__number_round__(__number_multiply__(numb,_mult)));
 		_str += string_format(_num.num[0],0,0);
-		_mult = __number_multiply__(_mult,number(10));
+		_mult2 = __number_multiply__(_mult2,_numb_10);
+		_mult = variable_clone(_mult2);
+	show_message(_str);
 	}
 		
 	return _str;
@@ -399,7 +402,7 @@ function __number_sub__(numb1,numb2){
 	numb2.fract_length = _max_fract_length+1;
 	
 	var _result_num = number(0);
-	_result_num.num_sign = __number_cmp__(numb1,numb2);
+	_result_num.num_sign = __number_cmp__(__number_clip__(numb1),__number_clip__(numb2));
 	_result_num.fract_length = numb1.fract_length;
 	
 	var _overed_value = int64(0);
@@ -419,19 +422,21 @@ function __number_sub__(numb1,numb2){
 
 function __number_cmp__(numb1,numb2){
 	if(numb1.num_sign != numb2.num_sign){
-		return numb1.num_sign - numb2.num_sign;
+		return sign(numb1.num_sign - numb2.num_sign);
 	}
-	
+
 	var _balance = (array_length(numb1.num)-numb1.fract_length) - (array_length(numb2.num)-numb2.fract_length);
-	
+
 	if(_balance != 0){
 		return sign(_balance);
 	}
-	
 	var _numb2_idx = array_length(numb2.num)-1;
 	for(var i = array_length(numb1.num)-1; i >= 0; i--){
-		if(_numb2_idx < 0){return 1;}
+		if(_numb2_idx < 0){
+			return 1;
+		}
 		var _balance = numb1.num[i]-numb2.num[_numb2_idx];
+
 		if(_balance != 0){
 			return sign(_balance);
 		}
