@@ -2,12 +2,11 @@
 // 이 에디터에 코드를 작성할 수 있습니다
 //show_message($"{number_power(number(4),number(-3))}")
 //show_message($"{number_multiply(number(4),number(0.01),10)}")
-show_message(number_multiply(number(122222222),__number_power__(number(1000000000),number(-1), 4)))
 show_message(
-	number("12222222222222222222")
+	number("0.33333")
 )
 show_message(
-	number_reciprocal(number(0.33333), 0)
+	number_reciprocal(number("0.33333"))
 )
 show_message(
 	number_string_bin(

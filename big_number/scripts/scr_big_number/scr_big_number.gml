@@ -68,7 +68,7 @@ function __number__(num) constructor {
 		var _accuracy = -ceil(_lowest_pow)+1;
 		
 		for(var i = 0; i < string_length(num)-1; i += 9){
-			//show_message($"aaa\n{string_copy(num,i+1,9)}")
+			//show_message($"aaa\n{number(real(string_copy(num,i+1,9)))}\n\n{__number_power__(number(1000000000),number(_pow), _accuracy)}")
 			var _sumed_num = __number_sum__(self,__number_multiply__(number(real(string_copy(num,i+1,9))),__number_power__(number(1000000000),number(_pow), _accuracy), _accuracy));
 			self.num = _sumed_num.num;
 			self.fract_length = _sumed_num.fract_length;
@@ -140,18 +140,8 @@ function number_sub(numb1, numb2){
 	return __number_sub__(numb1,numb2);
 }
 
-function number_reciprocal(numb, accuracy = -1){
-	var _result;
-	
-	if(accuracy == -1){
-		accuracy = array_length(numb.num)-numb.fract_length+1;
-		_result =  __number_reciprocal__(numb, accuracy);
-		_result = __number_clip__(_result,1);
-	} else {
-		_result =  __number_reciprocal__(numb, accuracy);
-	}
-	
-	return _result;
+function number_reciprocal(numb, accuracy = 0){
+	return __number_reciprocal__(numb, accuracy);
 }
 
 function number_multiply(numb1, numb2, accuracy = 1){
@@ -182,9 +172,7 @@ function __number_multiply__(numb1,numb2,accuracy){
 	numb1 = variable_clone(numb1);
 	numb2 = variable_clone(numb2);
 	var _result_num = number(0);
-	_result_num.num_sign = numb1.num_sign*numb2.num_sign;
-	_result_num.num = array_create(array_length(numb1.num)+array_length(numb2.num),0);
-	_result_num.fract_length = numb1.fract_length+numb2.fract_length;
+	var _fract_length = numb1.fract_length+numb2.fract_length;
 	
 	for(var i = 0; i < array_length(numb1.num); i++){
 		for(var ii = 0; ii < array_length(numb2.num); ii++){
@@ -194,16 +182,13 @@ function __number_multiply__(numb1,numb2,accuracy){
 			for(var iii = 0; iii < abs(_pos)+1; iii++){
 				_temp_number.num[iii] = 0;
 			}
-			
-			_temp_number.num[_result_num.fract_length+_pos] = _val & 0b000000000000000000000000000000001111111111111111111111111111111;
-			_temp_number.num[_result_num.fract_length+_pos+1] = _val >> 31;
-			_temp_number.fract_length = _result_num.fract_length;
+			_temp_number.num[_fract_length+_pos] = _val & 0b000000000000000000000000000000001111111111111111111111111111111;
+			_temp_number.num[_fract_length+_pos+1] = _val >> 31;
+			_temp_number.fract_length = _fract_length;
 			_result_num = __number_sum__(_result_num,_temp_number);
 		}
 	}
-	//show_message($"aaaa\n{_result_num} {accuracy}")
 	_result_num = __number_clip__(_result_num,accuracy);
-	//show_message($"bbbb\n{_result_num} {accuracy}")
 	return _result_num;
 }
 
@@ -287,6 +272,8 @@ function __number_reciprocal__(numb, accuracy){
 		if(array_length(numb.num)-numb.fract_length > accuracy){
 			return 0;
 		}
+	} else {
+		accuracy = max(array_length(numb.num)-numb.fract_length, numb.fract_length)+1;
 	}
 	
 	var _not_ddack = true;
@@ -335,7 +322,7 @@ function __number_reciprocal__(numb, accuracy){
 	return _result_num;
 }
 
-function __number_sum__(numb1,numb2){
+function __number_sum__(numb1,numb2,accuracy = 0){
 	numb1 = variable_clone(numb1);
 	numb2 = variable_clone(numb2);
 	
@@ -369,7 +356,7 @@ function __number_sum__(numb1,numb2){
 		_result_num.num[i] = _result_num.num[i] & 0b0000000000000000000000000000000001111111111111111111111111111111;
 	}
 	
-	_result_num = __number_clip__(_result_num);
+	_result_num = __number_clip__(_result_num, accuracy);
 	
 	return _result_num;
 }
