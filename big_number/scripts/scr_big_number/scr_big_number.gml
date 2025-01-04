@@ -65,7 +65,7 @@ function __number__(num) constructor {
 		}
 		
 		var _lowest_pow = _pow-(((string_length(num)-1) div 9)+1);
-		var _accuracy = -ceil(_lowest_pow)+1;
+		var _accuracy = -_lowest_pow+1;
 		
 		for(var i = 0; i < string_length(num)-1; i += 9){
 			//show_message($"aaa\n{number(real(string_copy(num,i+1,9)))}\n\n{__number_power__(number(1000000000),number(_pow), _accuracy)}")
@@ -79,6 +79,10 @@ function __number__(num) constructor {
 		if(self.fract_length == 0 && array_length(self.num) == 1 && self.num[0] == 0){
 			self.num_sign = 0;
 		}
+		
+		var _clipped_numb = __number_clip__(self,_accuracy);
+		self.num = _clipped_numb.num;
+		self.fract_length = _clipped_numb.fract_length;
 	}
 }
 
