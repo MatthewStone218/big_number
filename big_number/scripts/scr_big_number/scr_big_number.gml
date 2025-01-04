@@ -68,11 +68,9 @@ function __number__(num) constructor {
 		var _accuracy = max(-_lowest_pow+1,2);
 		var _final_accuracy = _accuracy-1;
 		for(var i = 0; i < string_length(num)-1; i += 9){
-			//show_message($"aaa\n{number(real(string_copy(num,i+1,9)))}\n\n{__number_power__(number(1000000000),number(_pow), _accuracy)}")
 			var _sumed_num = __number_sum__(self,__number_multiply__(number(real(string_copy(num,i+1,9))),__number_power__(number(1000000000),number(_pow), _accuracy), _accuracy));
 			self.num = _sumed_num.num;
 			self.fract_length = _sumed_num.fract_length;
-			//show_message($"[][][]\n{__number_multiply__(number(real(string_copy(num,i+1,9))),__number_power__(number(1000000000),number(_pow)))}\n{number(real(string_copy(num,i+1,9)))}*{__number_power__(number(1000000000),number(_pow))}\n{1000000000}^{_pow}")
 			_pow--;
 		}
 		
@@ -101,28 +99,25 @@ function number_string_bin(numb){
 	return _str;
 }
 
-function number_string_dec(numb,accuracy = 4){
+function number_string_dec(numb,accuracy = 1){
 	numb = variable_clone(numb);
 	var _str = numb.num_sign == -1 ? "-" : "";
-	var _digit = 0;
+	var _mult = number(1);
 	
 	do {
-		var _digit_num_up = __number_power__(number(10),number(_digit+1));
-		var _digit_num = __number_power__(number(10),number(_digit));
-		var _num = __number_round__(__number_div__(__number_mod__(__number_int__(numb),_digit_num_up),_digit_num));
+		var _num = __number_round__(__number_div__(__number_mod__(__number_int__(numb),__number_multiply__(_mult,number(10))),_mult));
 		_str = string_insert(string_format(_num.num[0],0,0),_str,0);
-		_digit++;
-	} until (__number_cmp__(numb,__number_power__(number(10),number(_digit))) >= 0)
+			_mult = __number_multiply__(_mult,number(10));
+	} until (__number_cmp__(numb,_mult) >= 0)
 	
-	if(numb.fract_length > 0){
-		var _digit = 1;
-		while(_digit <= numb.fract_length && accuracy >= numb.fract_length){
-			var _mult = __number_int__(__number_round__(__number_multiply__(numb,__number_power__(number(10),_digit))));
-			_str = string_insert(string_format(_mult.num[0],0,0),_str,0);
-			_digit++;
-		}
+	var _fract_size = __number_multiply__(number("2147483648"),number(numb.fract_length));
+	var _mult = number(10);show_message(number("214748364"))
+	while(__number_cmp__(_fract_size, _mult) >= 0){
+		var _num = __number_int__(__number_round__(__number_multiply__(numb,_mult)));
+		_str += string_format(_num.num[0],0,0);
+		_mult = __number_multiply__(_mult,number(10));
 	}
-	
+		
 	return _str;
 }
 
@@ -178,7 +173,15 @@ function number_clip(numb,accuracy = 0){
 	__number_clip__(numb,accuracy);
 }
 
-function __number_multiply__(numb1,numb2,accuracy){
+function number_accuracy_round(numb, accuracy){
+	return __number_accuracy_round__(numb, accuracy);
+}
+
+function number_cmp(numb1, numb2){
+	return __number_cmp__(numb1, numb2);
+}
+
+function __number_multiply__(numb1,numb2,accuracy = 0){
 	numb1 = variable_clone(numb1);
 	numb2 = variable_clone(numb2);
 	var _result_num = number(0);
@@ -476,9 +479,9 @@ function __number_accuracy_round__(numb, accuracy){
 			_temp_numb.num[numb.fract_length-accuracy] = 1;
 			numb = __number_sum__(numb,_temp_numb);
 		}
+		numb.fract_length = accuracy;
+		array_delete(numb.num,0,numb.fract_length-accuracy);
 	}
 	
-	array_delete(numb.num,0,numb.fract_length-accuracy);
-	numb.fract_length = accuracy;
 	return numb;
 }
