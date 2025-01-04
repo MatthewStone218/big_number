@@ -94,7 +94,7 @@ function number_string_bin(numb){
 	return _str;
 }
 
-function number_string_dec(numb,fract_accuracy = 1){
+function number_string_dec(numb,show_fract = 1){
 	numb = variable_clone(numb);
 	var _str = numb.num_sign == -1 ? "-" : "";
 	var _mult = number(10);
@@ -102,38 +102,33 @@ function number_string_dec(numb,fract_accuracy = 1){
 	var _numb_10 = number(10);
 	
 	do {
-		var _num = __number_int__(__number_div__(__number_mod__(__number_int__(numb),_mult),_mult2));//show_message($"{__number_mod__(__number_int__(numb),_mult)}\n\n{__number_int__(numb)}\n{_mult}")
+		var _num = __number_int__(__number_div__(__number_mod__(__number_int__(numb),_mult,1),_mult2,1));//show_message($"{__number_mod__(__number_int__(numb),_mult)}\n\n{__number_int__(numb)}\n{_mult}")
 		_str = string_insert(string_format(_num.num[0],0,0),_str,0);
 		_mult2 = variable_clone(_mult);
-		_mult = __number_multiply__(_mult,_numb_10);
+		_mult = __number_multiply__(_mult,_numb_10,1);
 	} until (__number_cmp__(numb,_mult2) < 0)
 	
-	var _fract_size = __number_multiply__(number("2147483648"),number(min(numb.fract_length,fract_accuracy)));
+	if(show_fract){_str += ".";}
 	
-	if(fract_accuracy > 0){_str += ".";}
-	
-	var i = 0;
-	var _mult = number(10);
 	var _mult_str = "1";
 	
-	while(__number_cmp__(_fract_size, _mult) >= 0 && fract_accuracy*9 > i){
-		var _num = __number_multiply__(__number_mod__(numb,number(_mult_str)),__number_power__(number(10),number(i+1)));
-		_str += string_format(_num.num[_num.fract_length],0,0);
-		if(i == 0){
-			_mult_str = "0.1";
-		} else {
-			_mult_str = string_insert("0",_mult_str,3);
+	if(show_fract){
+		for(var i = 0; i < 6; i++){
+			var _num = __number_multiply__(__number_mod__(numb,number(_mult_str)),__number_power__(number(10),number(i+1)));
+			_str += string_format(_num.num[_num.fract_length],0,0);
+			if(i == 0){
+				_mult_str = "0.1";
+			} else {
+				_mult_str = string_insert("0",_mult_str,3);
+			}
 		}
-		
-		_mult = __number_multiply__(_mult,number(10));
-		i++;
-	}
 	
-	while(string_char_at(_str,string_length(_str)) == "0"){
-		_str = string_delete(_str,string_length(_str),1);
-		if(string_char_at(_str,string_length(_str)) == "."){
+		while(string_char_at(_str,string_length(_str)) == "0"){
 			_str = string_delete(_str,string_length(_str),1);
-			break;
+			if(string_char_at(_str,string_length(_str)) == "."){
+				_str = string_delete(_str,string_length(_str),1);
+				break;
+			}
 		}
 	}
 	
