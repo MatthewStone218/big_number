@@ -44,19 +44,16 @@ function __number__(num) constructor {
 		var _dot_pos = string_pos(".",num);
 		var _additional_digit;
 		var _additional_fract;
-		var _pow;
 		
 		if(_dot_pos != 0){
 			num = string_delete(num,_dot_pos,1);
 		} else {
 			_dot_pos = string_length(num)+1;
-			_pow = (string_length(num)-1) div 9;
 		}
 		
-		_pow = (_dot_pos-2) div 9;
-		_additional_digit = (9 - (_dot_pos mod 9)) mod 9;
+		_additional_digit = (9 - ((_dot_pos-1) mod 9)) mod 9;
 		_additional_fract = (9 - ((string_length(num) - _dot_pos) mod 9)) mod 9;
-
+		
 		repeat(_additional_digit){
 			num = string_insert("0",num,0);
 		}
@@ -64,10 +61,12 @@ function __number__(num) constructor {
 			num += "0";
 		}
 		
-		var _lowest_pow = _pow-(((string_length(num)-1) div 9));
+		var _pow;
+		_pow = (_dot_pos-1) div 9;
+		
+		var _lowest_pow = _pow-((string_length(num)-1) div 9);
 		var _accuracy = max(-_lowest_pow+1,2);
 		var _final_accuracy = _accuracy-1;
-		
 		for(var i = 0; i < string_length(num)-1; i += 9){
 			//show_message($"aaa\n{number(real(string_copy(num,i+1,9)))}\n\n{__number_power__(number(1000000000),number(_pow), _accuracy)}")
 			var _sumed_num = __number_sum__(self,__number_multiply__(number(real(string_copy(num,i+1,9))),__number_power__(number(1000000000),number(_pow), _accuracy), _accuracy));
@@ -467,7 +466,6 @@ function __number_clip__(numb,accuracy = 0){
 
 function __number_accuracy_round__(numb, accuracy){
 	numb = variable_clone(numb);
-	
 	if(numb.fract_length-accuracy-1 >= 0){
 		var _fract = numb.num[numb.fract_length-accuracy-1];
 		if(_fract & (0b1000000000000000000000000000000)){
@@ -475,14 +473,12 @@ function __number_accuracy_round__(numb, accuracy){
 			_temp_numb.num_sign = 1;
 			_temp_numb.num = array_create(array_length(numb.num),0);
 			_temp_numb.fract_length = numb.fract_length
-			numb = __number_sum__(numb,_temp_numb[numb.fract_length-accuracy]);
+			_temp_numb.num[numb.fract_length-accuracy] = 1;
+			numb = __number_sum__(numb,_temp_numb);
 		}
-	} else {
-		
 	}
 	
 	array_delete(numb.num,0,numb.fract_length-accuracy);
 	numb.fract_length = accuracy;
-	
 	return numb;
 }
