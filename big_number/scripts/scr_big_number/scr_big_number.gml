@@ -81,7 +81,7 @@ function __number__(num) constructor {
 			self.num_sign = 0;
 		}
 		
-		var _clipped_numb = __number_clip__(self,_final_accuracy);
+		var _clipped_numb = __number_accuracy_round__(self,_final_accuracy);
 		self.num = _clipped_numb.num;
 		self.fract_length = _clipped_numb.fract_length;
 	}
