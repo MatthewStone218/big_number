@@ -12,70 +12,56 @@ var _time = get_timer();
 for(var i = 0; i < 1000; i++){
 	number(1000);
 }
-show_debug_message($"number(1000);\n{(get_timer()-_time)/1000}/1000ms")
+show_debug_message($"number(1000);\n{(get_timer()-_time)/1000000}ms")
 
 var _time = get_timer();
 for(var i = 0; i < 1000; i++){
 	number("1000");
 }
-show_debug_message($"number(\"1000\");\n{(get_timer()-_time)/1000}/1000ms")
+show_debug_message($"number(\"1000\");\n{(get_timer()-_time)/1000000}ms")
 
 var _numb = number(1000);
 var _time = get_timer();
 for(var i = 0; i < 1000; i++){
 	number_multiply(_numb,_numb);
 }
-show_debug_message($"number_multiply(number(1000),number(1000));\n{(get_timer()-_time)/1000}/1000ms")
+show_debug_message($"number_multiply(number(1000),number(1000));\n{(get_timer()-_time)/1000000}ms")
 
 var _numb = number("100000000000000000000");
 var _time = get_timer();
 for(var i = 0; i < 1000; i++){
 	number_multiply(_numb,_numb);
 }
-show_debug_message($"number_multiply(number(100000000000000000000),number(100000000000000000000));\n{(get_timer()-_time)/1000}/1000ms")
+show_debug_message($"number_multiply(number(100000000000000000000),number(100000000000000000000));\n{(get_timer()-_time)/1000000}ms")
 
 var _numb = number(1000);
 var _time = get_timer();
 for(var i = 0; i < 1000; i++){
 	number_sum(_numb,_numb);
 }
-show_debug_message($"number_sum(1000);\n{(get_timer()-_time)/1000}/1000ms")
+show_debug_message($"number_sum(1000,1000);\n{(get_timer()-_time)/1000000}ms")
 
 var _numb = number("100000000000000000000");
 var _time = get_timer();
 for(var i = 0; i < 1000; i++){
 	number_sum(_numb,_numb);
 }
-show_debug_message($"number_sum(100000000000000000000,100000000000000000000);\n{(get_timer()-_time)/1000}/1000ms")
+show_debug_message($"number_sum(100000000000000000000,100000000000000000000);\n{(get_timer()-_time)/1000000}ms")
 
 var _numb = number(1000);
 var _time = get_timer();
 for(var i = 0; i < 1000; i++){
 	number_sub(_numb,_numb);
 }
-show_debug_message($"number_sub(1000);\n{(get_timer()-_time)/1000}/1000ms")
+show_debug_message($"number_sub(1000,1000);\n{(get_timer()-_time)/1000000}ms")
 
 var _numb = number("100000000000000000000");
 var _time = get_timer();
 for(var i = 0; i < 1000; i++){
 	number_sub(_numb,_numb);
 }
-show_debug_message($"number_sub(100000000000000000000,100000000000000000000);\n{(get_timer()-_time)/1000}/1000ms")
+show_debug_message($"number_sub(100000000000000000000,100000000000000000000);\n{(get_timer()-_time)/1000000}ms")
 var _numb = number(1000);
-
-var _numb = number(1000);
-var _time = get_timer();
-for(var i = 0; i < 1000; i++){
-	number_multiply(_numb,_numb);
-}
-show_debug_message($"number_multiply(1000,1000);\n{(get_timer()-_time)/1000}/1000ms")
-
-var _numb = number("100000000000000000000");
-var _time = get_timer();
-for(var i = 0; i < 1000; i++){
-	number_multiply(_numb,_numb);
-}
-show_debug_message($"number_multiply(100000000000000000000,100000000000000000000);\n{(get_timer()-_time)/1000}/1000ms")
 
 var _numb = number(1000);
 var _numb2 = number(900);
@@ -83,15 +69,15 @@ var _time = get_timer();
 for(var i = 0; i < 1000; i++){
 	number_div(_numb,_numb2);
 }
-show_debug_message($"number_div(1000,900);\n{(get_timer()-_time)/1000}/1000ms")
+show_debug_message($"number_div(1000,900);\n{(get_timer()-_time)/1000000}ms")
 
 var _numb = number("100000000000000000000");
-var _numb2 = number("90000000000000000000");
+var _numb2 = number("900");
 var _time = get_timer();
 for(var i = 0; i < 1000; i++){
 	number_div(_numb,_numb2);
 }
-show_debug_message($"number_div(100000000000000000000,90000000000000000000);\n{(get_timer()-_time)/1000}/1000ms")
+show_debug_message($"number_div(100000000000000000000,900);\n{(get_timer()-_time)/1000000}ms")
 
 var _numb = number(1000);
 var _numb2 = number(900);
@@ -99,15 +85,15 @@ var _time = get_timer();
 for(var i = 0; i < 1000; i++){
 	number_mod(_numb,_numb2);
 }
-show_debug_message($"number_mod(1000,900);\n{(get_timer()-_time)/1000}/1000ms")
+show_debug_message($"number_mod(1000,900);\n{(get_timer()-_time)/1000000}ms")
 
 var _numb = number("100000000000000000000");
-var _numb2 = number("90000000000000000000");
+var _numb2 = number("900");
 var _time = get_timer();
 for(var i = 0; i < 1000; i++){
 	number_mod(_numb,_numb2);
 }
-show_debug_message($"number_mod(100000000000000000000,90000000000000000000);\n{(get_timer()-_time)/1000}/1000ms")
+show_debug_message($"number_mod(100000000000000000000,900);\n{(get_timer()-_time)/1000000}ms")
 
 
 show_message(
