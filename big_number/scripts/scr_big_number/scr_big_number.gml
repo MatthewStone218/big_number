@@ -62,7 +62,7 @@ function __number__(num) constructor {
 		}
 		
 		var _pow;
-		_pow = (_dot_pos-1) div 9;
+		_pow = (_dot_pos-2) div 9;
 		
 		var _lowest_pow = _pow-((string_length(num)-1) div 9);
 		var _accuracy = max(-_lowest_pow+1,2);
@@ -77,7 +77,6 @@ function __number__(num) constructor {
 		if(self.fract_length == 0 && array_length(self.num) == 1 && self.num[0] == 0){
 			self.num_sign = 0;
 		}
-		
 		var _clipped_numb = __number_accuracy_round__(self,_final_accuracy);
 		self.num = _clipped_numb.num;
 		self.fract_length = _clipped_numb.fract_length;
@@ -479,9 +478,8 @@ function __number_accuracy_round__(numb, accuracy){
 			_temp_numb.num[numb.fract_length-accuracy] = 1;
 			numb = __number_sum__(numb,_temp_numb);
 		}
-		numb.fract_length = accuracy;
 		array_delete(numb.num,0,numb.fract_length-accuracy);
+		numb.fract_length = accuracy;
 	}
-	
 	return numb;
 }
