@@ -100,8 +100,9 @@ function number_string_dec(numb,show_fract = 1){
 	var _int_num = [];
 	for(var i = 0; i < (array_length(numb.num)*31 div 4); i++){
 		var _first_bit = (numb.num[i div 31] & (0b0000000000000000000000000001111 << (i*4 mod 31))) >> (i*4 mod 31);
-		var _second_bit = array_length(numb.num) > 1 ? (numb.num[(i div 31)+1] & (0b0000000000000000000000000001111 << ((i*4 mod 31)-31))) : 0;
+		var _second_bit = array_length(numb.num) > ((i div 31)+1) ? (numb.num[(i div 31)+1] & (0b0000000000000000000000000001111 << ((i*4 mod 31)-31))) : 0;
 		_int_num[i] = _first_bit + (_second_bit << (31 - (i*4 mod 31) + 4));
+		
 	}
 	//show_message(_int_num)
 	var _bcd = array_create(array_length(_int_num),int64(0));
