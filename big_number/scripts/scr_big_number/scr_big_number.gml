@@ -101,7 +101,6 @@ function number_string_dec(numb){
 		var _first_bit = (numb.num[i*4 div 31] & (0b0000000000000000000000000001111 << (i*4 mod 31))) >> (i*4 mod 31);
 		var _second_bit = array_length(numb.num) > ((i*4 div 31)+1) ? (numb.num[(i*4 div 31)+1] & (0b0000000000000000000000000001111 >> (31-(i*4 mod 31)))) : 0;
 		_int_num[i-(numb.fract_length*31 div 4)] = _first_bit + (_second_bit << (31 - (i*4 mod 31)));
-		//show_message($"{i}\n\n{_first_bit}\n{_second_bit}\n{_int_num[i-(numb.fract_length*31 div 4)]}\n{numb.num[i*4 div 31]}\n{number_string_bin(numb)}")
 	}
 	var _bcd = array_create(array_length(_int_num),int64(0));
 	
