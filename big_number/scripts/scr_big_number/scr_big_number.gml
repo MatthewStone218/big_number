@@ -104,7 +104,35 @@ function number_string_dec(numb,show_fract = 1){
 		_int_num[i] = _first_bit + (_second_bit << (31 - (i*4 mod 31) + 4));
 	}
 	
-	var _bcd = array_create(ceil(9.331929865583417*(array_length(_int_num)-1))+2,int64(0));
+	var _bcd = array_create(_int_num,int64(0));
+	
+	for(var i = 0; i < array_length(_int_num)*4; i++){
+		for(var j = 0; j < array_length(_bcd); j++){
+			if(_bcd[j] >= 5){
+				_bcd[j] += 3;
+				break;//문제가 있다면 이걸 지워볼것.
+			}
+		}
+
+		var _left_bits = [];
+		for(var j = 0; j < array_length(_int_num); j++){
+			_left_bits[j] = _int_num >> 3;
+		}
+		for(var j = 0; j < array_length(_int_num); j++){
+			_int_num[j] = (_int_num[j] << 1) + (j > 0 ? _left_bits[j-1] : 0);
+		}
+		
+		_bcd[0] = _left_bits[array_length(_int_num)-1];
+		
+		var _left_bits = [];
+		for(var j = 0; j < array_length(_bcd); j++){
+			_left_bits[j] = _bcd >> 3;
+		}
+		for(var j = 0; j < array_length(_bcd); j++){
+			_bcd[j] = (_bcd[j] << 1) + (j > 0 ? _left_bits[j-1] : 0);
+		}
+	}
+	
 	
 	var _str = "";
 	
