@@ -98,31 +98,13 @@ function number_string_dec(numb,show_fract = 1){
 	numb = variable_clone(numb);
 	
 	var _int_num = [];
-	array_copy(_int_num,0,numb.num,numb.fract_length,array_length(numb.num)-numb.fract_length);
-	
-	var _bcd = array_create(ceil(9.331929865583417*(array_length(_int_num)-1))+1,int64(0));
-	
-	for(var i = array_length(_int_num)*31-1; i >= 0; i--){
-		var _temp_bit_left,_temp_bit_right;
-		_temp_bit_right = 0;
-		
-		for(var j = 0; j < array_length(_int_num); j++){
-			_temp_bit_left = (_int_num[j] & 0b1000000000000000000000000000000) != 0;
-			_int_num[j] = (_int_num[j] << 1) + _temp_bit_right;
-			_int_num[j] = _int_num[j] & 0b0000000000000000000000000000000001111111111111111111111111111111;
-			_temp_bit_right = _temp_bit_left;
-		}
-		
-		for(var j = 0; j < array_length(_bcd); j++){
-			if(_bcd[j] >= 5){
-				//_bcd[j] += 3;
-			}
-			_temp_bit_left = (_bcd[j] & 0b1000000000000000000000000000000) != 0;
-			_bcd[j] = (_bcd[j] << 1) + _temp_bit_right;
-			_bcd[j] = _bcd[j] & 0b0000000000000000000000000000000001111111111111111111111111111111;
-			_temp_bit_right = _temp_bit_left;
-		}
+	for(var i = 0; i < (array_length(numb.num)*31 div 4); i++){
+		var _first_bit = (numb.num[i div 31] & (0b0000000000000000000000000001111 << (i*4 mod 31))) >> (i*4 mod 31);
+		var _second_bit = (numb.num[(i div 31)+1] & (0b0000000000000000000000000001111 << ((i*4 mod 31)-31)));
+		_int_num[i] = _first_bit + (_second_bit << (31 - (i*4 mod 31) + 4));
 	}
+	
+	var _bcd = array_create(ceil(9.331929865583417*(array_length(_int_num)-1))+2,int64(0));
 	
 	var _str = "";
 	
