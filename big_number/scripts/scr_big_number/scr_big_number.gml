@@ -96,40 +96,23 @@ function number_string_bin(numb){
 
 function number_string_dec(numb,show_fract = 1){
 	numb = variable_clone(numb);
-	var _str = numb.num_sign == -1 ? "-" : "";
-	var _mult = number(10);
-	var _mult2 = number(1);
-	var _numb_10 = number(10);
 	
-	do {//show_message($"{__number_mod__(__number_int__(numb),_mult)}\n\n{__number_int__(numb)}\n\n{_mult}")
-		var _num = __number_int__(__number_div__(__number_mod__(__number_int__(numb),_mult,10),_mult2,10));//show_message($"{__number_mod__(__number_int__(numb),_mult)}\n\n{__number_int__(numb)}\n{_mult}")
-		_str = string_insert(string_format(_num.num[0],0,0),_str,0);
-		_mult2 = variable_clone(_mult);
-		_mult = __number_multiply__(_mult,_numb_10);
-	} until (__number_cmp__(numb,_mult2) < 0)
+	var _int_num = [];
+	array_copy(_int_num,0,numb,numb.fract_length,array_length(numb)-numb.fract_length);
 	
-	if(show_fract){_str += ".";}
+	var _bcd = array_create(ceil(9.331929865583417*array_length(_int_num))+1,int64(0));
 	
-	var _mult_str = "1";
-	
-	if(show_fract){
-		for(var i = 0; i < 6; i++){
-			var _num = __number_multiply__(__number_mod__(numb,number(_mult_str)),__number_power__(number(10),number(i+1)));
-			_str += string_format(_num.num[_num.fract_length],0,0);
-			if(i == 0){
-				_mult_str = "0.1";
-			} else {
-				_mult_str = string_insert("0",_mult_str,3);
-			}
+	for(var i = array_length(_int_num)*31; i >= 0; i--){
+		var _temp_bit_left,_temp_bit_right;
+		_temp_bit_right = 0;
+		
+		for(var j = 0; j < array_length(_int_num); j++){
+			_temp_bit_left = _int_num[j] & 0b1000000000000000000000000000000;
+			_int_num = (_int_num << 1) + _temp_bit_right;
+			_temp_bit_right = _temp_bit_left;
 		}
-	
-		while(string_char_at(_str,string_length(_str)) == "0"){
-			_str = string_delete(_str,string_length(_str),1);
-			if(string_char_at(_str,string_length(_str)) == "."){
-				_str = string_delete(_str,string_length(_str),1);
-				break;
-			}
-		}
+		
+		for(var j = array_len;)
 	}
 	
 	return _str;
