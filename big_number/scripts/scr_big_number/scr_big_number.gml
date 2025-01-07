@@ -119,20 +119,19 @@ function number_string_dec(numb,show_fract = 1){
 			_left_bits[j] = _int_num[j] >> 3;
 		}
 		for(var j = 0; j < array_length(_int_num); j++){
-			_int_num[j] = (_int_num[j] << 1) + (j > 0 ? _left_bits[j-1] : 0);
+			_int_num[j] = ((_int_num[j] << 1) + (j > 0 ? _left_bits[j-1] : 0)) & 0b0000000000000000000000000000000000000000000000000000000000001111;
 		}
 		
-		_bcd[0] = _left_bits[array_length(_int_num)-1];
+		_bcd[0] = ((_bcd[0] << 1) + _left_bits[array_length(_int_num)-1]) & 0b0000000000000000000000000000000000000000000000000000000000001111;
 		
 		var _left_bits = [];
 		for(var j = 0; j < array_length(_bcd); j++){
 			_left_bits[j] = _bcd[j] >> 3;
 		}
-		for(var j = 0; j < array_length(_bcd); j++){
-			_bcd[j] = (_bcd[j] << 1) + (j > 0 ? _left_bits[j-1] : 0);
+		for(var j = 1; j < array_length(_bcd); j++){
+			_bcd[j] = ((_bcd[j] << 1) + (j > 0 ? _left_bits[j-1] : 0)) & 0b0000000000000000000000000000000000000000000000000000000000001111;
 		}
 	}
-	
 	var _str = "";
 	
 	for(var i = array_length(_bcd)-1; i >= 0; i--){
