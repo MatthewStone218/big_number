@@ -2,8 +2,7 @@
 // 이 에디터에 코드를 작성할 수 있습니다
 //show_message($"{number_power(number(4),number(-3))}")
 //show_message($"{number_multiply(number(4),number(0.01),10)}")
-show_message(number_string_dec(number_multiply(number_multiply(number_multiply(number(11111111), number(11111111)), number(11111111)),number(11111111))))
-show_message(number_div(number("100000000000000000000"),number(10)))
+//show_message(number_div(number("100000000000000000000"),number(10)))
 //var _time = get_timer();
 //show_debug_message(number_string_dec(number("11223344522222222222222222225"),false))
 //show_message($"{(get_timer()-_time)/1000}ms")
@@ -94,6 +93,14 @@ for(var i = 0; i < 1000; i++){
 	number_mod(_numb,_numb2);
 }
 show_debug_message($"number_mod(100000000000000000000,900);\n{(get_timer()-_time)/1000000}ms")
+
+
+var _numb = number_multiply(number_multiply(number_multiply(number(11111111), number(11111111)), number(11111111)),number(11111111));
+var _time = get_timer();
+for(var i = 0; i < 1000; i++){
+	number_string_dec(_numb);
+}
+show_debug_message($"number_string_dec();\n{(get_timer()-_time)/1000000}ms")
 
 
 show_message(
