@@ -139,6 +139,13 @@ function number_string_dec(numb,show_fract = 1){
 		_str += string_format(_bcd[i], 0, 0);
 	}
 	
+	while(string_char_at(_str,0) == "0"){
+		if(string_length(_str) == 1){
+			break;
+		}
+		_str = string_delete(_str,0,1);
+	}
+	
 	return _str;
 }
 
