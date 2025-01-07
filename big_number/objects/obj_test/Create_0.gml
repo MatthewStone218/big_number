@@ -95,7 +95,7 @@ for(var i = 0; i < 1000; i++){
 show_debug_message($"number_mod(100000000000000000000,900);\n{(get_timer()-_time)/1000000}ms")
 
 
-var _numb = number_multiply(number_multiply(number_multiply(number(11111111), number(11111111)), number(11111111)),number(11111111));
+var _numb = number(11111111);
 var _time = get_timer();
 for(var i = 0; i < 1000; i++){
 	number_string_dec(_numb);

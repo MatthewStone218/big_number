@@ -94,7 +94,7 @@ function number_string_bin(numb){
 	return _str;
 }
 
-function number_string_dec(numb,show_fract = 1){
+function number_string_dec(numb){
 	numb = variable_clone(numb);
 	var _int_num = [];
 	for(var i = numb.fract_length*31 div 4; i < array_length(numb.num)*31 div 4; i++){
