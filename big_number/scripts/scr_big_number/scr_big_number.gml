@@ -107,7 +107,7 @@ function number_string_dec(numb,show_fract = 1){
 		_temp_bit_right = 0;
 		
 		for(var j = 0; j < array_length(_int_num); j++){
-			_temp_bit_left = _int_num[j] & 0b1000000000000000000000000000000;
+			_temp_bit_left = (_int_num[j] & 0b1000000000000000000000000000000) != 0;
 			_int_num[j] = (_int_num[j] << 1) + _temp_bit_right;
 			_int_num[j] = _int_num[j] & 0b0000000000000000000000000000000001111111111111111111111111111111;
 			_temp_bit_right = _temp_bit_left;
@@ -117,7 +117,7 @@ function number_string_dec(numb,show_fract = 1){
 			if(_bcd[j] >= 5){
 				//_bcd[j] += 3;
 			}
-			_temp_bit_left = _bcd[j] & 0b1000000000000000000000000000000;
+			_temp_bit_left = (_bcd[j] & 0b1000000000000000000000000000000) != 0;
 			_bcd[j] = (_bcd[j] << 1) + _temp_bit_right;
 			_bcd[j] = _bcd[j] & 0b0000000000000000000000000000000001111111111111111111111111111111;
 			_temp_bit_right = _temp_bit_left;
