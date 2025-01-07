@@ -2,7 +2,7 @@
 // 이 에디터에 코드를 작성할 수 있습니다
 //show_message($"{number_power(number(4),number(-3))}")
 //show_message($"{number_multiply(number(4),number(0.01),10)}")
-show_message(number_string_dec(number("123123123000000000123123123")))
+show_message(number_string_dec(number("123")))
 show_message(number_div(number("100000000000000000000"),number(10)))
 //var _time = get_timer();
 //show_debug_message(number_string_dec(number("11223344522222222222222222225"),false))

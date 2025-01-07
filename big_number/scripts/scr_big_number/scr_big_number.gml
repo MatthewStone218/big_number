@@ -100,11 +100,11 @@ function number_string_dec(numb,show_fract = 1){
 	var _int_num = [];
 	for(var i = 0; i < (array_length(numb.num)*31 div 4); i++){
 		var _first_bit = (numb.num[i div 31] & (0b0000000000000000000000000001111 << (i*4 mod 31))) >> (i*4 mod 31);
-		var _second_bit = (numb.num[(i div 31)+1] & (0b0000000000000000000000000001111 << ((i*4 mod 31)-31)));
+		var _second_bit = array_length(numb.num) > 1 ? (numb.num[(i div 31)+1] & (0b0000000000000000000000000001111 << ((i*4 mod 31)-31))) : 0;
 		_int_num[i] = _first_bit + (_second_bit << (31 - (i*4 mod 31) + 4));
 	}
 	
-	var _bcd = array_create(_int_num,int64(0));
+	var _bcd = array_create(array_length(_int_num),int64(0));
 	
 	for(var i = 0; i < array_length(_int_num)*4; i++){
 		for(var j = 0; j < array_length(_bcd); j++){
@@ -116,7 +116,7 @@ function number_string_dec(numb,show_fract = 1){
 
 		var _left_bits = [];
 		for(var j = 0; j < array_length(_int_num); j++){
-			_left_bits[j] = _int_num >> 3;
+			_left_bits[j] = _int_num[j] >> 3;
 		}
 		for(var j = 0; j < array_length(_int_num); j++){
 			_int_num[j] = (_int_num[j] << 1) + (j > 0 ? _left_bits[j-1] : 0);
@@ -126,13 +126,12 @@ function number_string_dec(numb,show_fract = 1){
 		
 		var _left_bits = [];
 		for(var j = 0; j < array_length(_bcd); j++){
-			_left_bits[j] = _bcd >> 3;
+			_left_bits[j] = _bcd[j] >> 3;
 		}
 		for(var j = 0; j < array_length(_bcd); j++){
 			_bcd[j] = (_bcd[j] << 1) + (j > 0 ? _left_bits[j-1] : 0);
 		}
 	}
-	
 	
 	var _str = "";
 	
