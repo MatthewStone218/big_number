@@ -113,7 +113,6 @@ function number_string_dec(numb,show_fract = 1){
 				break;//문제가 있다면 이걸 지워볼것.
 			}
 		}
-		show_message($"{_int_num}{_bcd}")
 
 		var _left_bits = [];
 		for(var j = 0; j < array_length(_int_num); j++){
