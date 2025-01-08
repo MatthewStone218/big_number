@@ -80,6 +80,8 @@ function __number__(num) constructor {
 			}
 		}
 		
+		for(var i = 0;   )
+		
 		self.num = __number_sum__(self, number(real("0."+_num_str_fract)));
 		
 		if(self.fract_length == 0 && array_length(self.num) == 1 && self.num[0] == 0){
