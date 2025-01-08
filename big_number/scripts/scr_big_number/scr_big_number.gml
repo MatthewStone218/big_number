@@ -53,10 +53,31 @@ function __number__(num) constructor {
 			_num_str_fract = "0";
 		}
 		
-		var _num_int = [];
-		var _num_int = [];
+		var _num_bcd = [];
+		var _num_bin = [];
 		for(var i = 0; i < string_length(_num_str_int); i++){
-			_num_int[i] = string_char_at(_num_str_int,string_length(_num_str_int)-i+1);
+			switch(string_char_at(_num_str_int,string_length(_num_str_int)-i)){
+				case "0": _num_bin[i] = 0;
+				break;
+				case "1": _num_bin[i] = 1;
+				break;
+				case "2": _num_bin[i] = 2;
+				break;
+				case "3": _num_bin[i] = 3;
+				break;
+				case "4": _num_bin[i] = 4;
+				break;
+				case "5": _num_bin[i] = 5;
+				break;
+				case "6": _num_bin[i] = 6;
+				break;
+				case "7": _num_bin[i] = 7;
+				break;
+				case "8": _num_bin[i] = 8;
+				break;
+				case "9": _num_bin[i] = 9;
+				break;
+			}
 		}
 		
 		self.num = __number_sum__(self, number(real("0."+_num_str_fract)));
