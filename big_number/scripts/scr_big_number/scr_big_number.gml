@@ -54,6 +54,7 @@ function __number__(num) constructor {
 		}
 		
 		var _num_int = [];
+		var _num_int = [];
 		for(var i = 0; i < string_length(_num_str_int); i++){
 			_num_int[i] = string_char_at(_num_str_int,string_length(_num_str_int)-i+1);
 		}
@@ -83,15 +84,11 @@ function number_string_bin(numb){
 
 function number_string_dec(numb){
 	numb = variable_clone(numb);
-	var _int_num = [];
-	for(var i = numb.fract_length*31 div 4; i < ceil(array_length(numb.num)*31/4); i++){
-		var _first_bit = (numb.num[i*4 div 31] & (0b0000000000000000000000000001111 << (i*4 mod 31))) >> (i*4 mod 31);
-		var _second_bit = array_length(numb.num) > ((i*4 div 31)+1) ? (numb.num[(i*4 div 31)+1] & (0b0000000000000000000000000001111 >> (31-(i*4 mod 31)))) : 0;
-		_int_num[i-(numb.fract_length*31 div 4)] = _first_bit + (_second_bit << (31 - (i*4 mod 31)));
-	}
-	var _bcd = array_create(array_length(_int_num)*4,0);
+	var _bcd = [0];
 	
-	for(var i = 0; i < array_length(_int_num)*4; i++){
+	for(var i = 0; i < ceil(array_length(numb.num)*31/4)*4; i++){
+		if(i < ceil(array_length(numb.num)*31/4)*4 - array_length(numb.num)*31){continue;}
+		
 		for(var j = 0; j < array_length(_bcd); j++){
 			if(_bcd[j] >= 5){
 				_bcd[j] += 3;
@@ -99,23 +96,26 @@ function number_string_dec(numb){
 		}
 
 		var _left_bits = [];
-		for(var j = 0; j < array_length(_int_num); j++){
-			_left_bits[j] = _int_num[j] >> 3;
+		for(var j = 0; j < array_length(numb.num); j++){
+			_left_bits[j] = numb.num[j] >> 30;
 		}
-		for(var j = 0; j < array_length(_int_num); j++){
-			_int_num[j] = ((_int_num[j] << 1) + (j > 0 ? _left_bits[j-1] : 0)) & 0b0000000000000000000000000000000000000000000000000000000000001111;
+		for(var j = 0; j < array_length(numb.num); j++){
+			numb.num[j] = ((numb.num[j] << 1) + (j > 0 ? _left_bits[j-1] : 0)) & 0b0000000000000000000000000000000001111111111111111111111111111111;
 		}
 		
-		var _int_num_MSB = ((_bcd[0] << 1) + _left_bits[array_length(_int_num)-1]) & 0b0000000000000000000000000000000000000000000000000000000000001111;
+		var _bcd_LSB = ((_bcd[0] << 1) + _left_bits[array_length(numb.num)-1]) & 0b0000000000000000000000000000000000000000000000000000000000001111;
 		
 		var _left_bits = [];
 		for(var j = 0; j < array_length(_bcd); j++){
 			_left_bits[j] = _bcd[j] >> 3;
 		}
+		if(_bcd[array_length(_bcd)-1] >= 8){
+			array_push(_bcd,0);
+		}
 		for(var j = 1; j < array_length(_bcd); j++){
 			_bcd[j] = ((_bcd[j] << 1) + _left_bits[j-1]) & 0b0000000000000000000000000000000000000000000000000000000000001111;
 		}
-		_bcd[0] = _int_num_MSB;
+		_bcd[0] = _bcd_LSB;
 	}
 	var _str = "";
 	
