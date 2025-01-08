@@ -42,36 +42,23 @@ function __number__(num) constructor {
 		}
 		
 		var _dot_pos = string_pos(".",num);
-		var _additional_digit;
-		var _additional_fract;
+		
+		var _num_str_int,_num_str_fract;
 		
 		if(_dot_pos != 0){
-			num = string_delete(num,_dot_pos,1);
+			_num_str_int = string_copy(num,1,_dot_pos-1);
+			_num_str_fract = string_copy(num,_dot_pos+1,string_length(num)-_dot_pos);
 		} else {
-			_dot_pos = string_length(num)+1;
+			_num_str_int = num;
+			_num_str_fract = "0";
 		}
 		
-		_additional_digit = (9 - ((_dot_pos - 1) mod 9));
-		_additional_fract = (9 - ((string_length(num) - _dot_pos) mod 9));
-		
-		repeat(_additional_digit){
-			num = string_insert("0",num,0);
-		}
-		repeat(_additional_fract){
-			num += "0";
+		var _num_int = [];
+		for(var i = 0; i < string_length(_num_str_int); i++){
+			_num_int[i] = string_char_at(_num_str_int,string_length(_num_str_int)-i+1);
 		}
 		
-		var _pow;
-		_pow = (_dot_pos-2) div 9;
-		
-		var _lowest_pow = _pow-((string_length(num)-1) div 9);
-		var _accuracy = max(-_lowest_pow+1,2);
-		for(var i = 0; i < string_length(num); i += 9){
-			var _sumed_num = __number_sum__(self,__number_multiply__(number(real(string_copy(num,i+1,9))),__number_power__(number(1000000000),number(_pow), _accuracy), _accuracy));
-			self.num = _sumed_num.num;
-			self.fract_length = _sumed_num.fract_length;
-			_pow--;
-		}
+		self.num = __number_sum__(self, number(real("0."+_num_str_fract)));
 		
 		if(self.fract_length == 0 && array_length(self.num) == 1 && self.num[0] == 0){
 			self.num_sign = 0;
@@ -97,12 +84,12 @@ function number_string_bin(numb){
 function number_string_dec(numb){
 	numb = variable_clone(numb);
 	var _int_num = [];
-	for(var i = numb.fract_length*31 div 4; i < array_length(numb.num)*31 div 4; i++){
+	for(var i = numb.fract_length*31 div 4; i < ceil(array_length(numb.num)*31/4); i++){
 		var _first_bit = (numb.num[i*4 div 31] & (0b0000000000000000000000000001111 << (i*4 mod 31))) >> (i*4 mod 31);
 		var _second_bit = array_length(numb.num) > ((i*4 div 31)+1) ? (numb.num[(i*4 div 31)+1] & (0b0000000000000000000000000001111 >> (31-(i*4 mod 31)))) : 0;
 		_int_num[i-(numb.fract_length*31 div 4)] = _first_bit + (_second_bit << (31 - (i*4 mod 31)));
 	}
-	var _bcd = array_create(array_length(_int_num),int64(0));
+	var _bcd = array_create(array_length(_int_num)*4,0);
 	
 	for(var i = 0; i < array_length(_int_num)*4; i++){
 		for(var j = 0; j < array_length(_bcd); j++){
