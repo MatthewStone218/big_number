@@ -6,6 +6,15 @@
 //var _time = get_timer();
 //show_debug_message(number_string_dec(number("11223344522222222222222222225"),false))
 //show_message($"{(get_timer()-_time)/1000}ms")
+var _numb = number_multiply(number(11111111),number_multiply(number(11111111),number_multiply(number(11111111),number(11111111))));
+show_message(number_string_dec(_numb));
+var _time = get_timer();
+for(var i = 0; i < 1000; i++){
+	number_string_dec(_numb);
+}
+show_message($"number_string_dec();\n{(get_timer()-_time)/1000000}ms")
+
+
 show_message(number_string_dec(number_multiply(number(1111111),number_multiply(number(1111111),number(1111111)))))
 var _time = get_timer();
 for(var i = 0; i < 1000; i++){

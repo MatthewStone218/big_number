@@ -85,35 +85,31 @@ function number_string_bin(numb){
 function number_string_dec(numb){
 	numb = variable_clone(numb);
 	var _bcd = [0];
+	var _bcd_count = 1;
+	var _numb_arr_length = array_length(numb.num);
 	
-	for(var i = 0; i < ceil(array_length(numb.num)*31/4)*4; i++){
-		if(i < ceil(array_length(numb.num)*31/4)*4 - array_length(numb.num)*31){continue;}
-		
-		for(var j = 0; j < array_length(_bcd); j++){
+	var _total_bits = ceil(array_length(numb.num)*31/4)*4;
+	
+	for(var i = ceil(array_length(numb.num)*31/4)*4 - array_length(numb.num)*31; i < _total_bits; i++){
+		for(var j = 0; j < _bcd_count; j++){
 			if(_bcd[j] >= 5){
 				_bcd[j] += 3;
 			}
 		}
 
-		var _left_bits = [];
-		for(var j = 0; j < array_length(numb.num); j++){
-			_left_bits[j] = numb.num[j] >> 30;
-		}
-		for(var j = 0; j < array_length(numb.num); j++){
-			numb.num[j] = ((numb.num[j] << 1) + (j > 0 ? _left_bits[j-1] : 0)) & 0b0000000000000000000000000000000001111111111111111111111111111111;
-		}
+		var _bcd_LSB = ((_bcd[0] << 1) + (numb.num[_numb_arr_length-1] >> 30)) & 0b0000000000000000000000000000000000000000000000000000000000001111;
 		
-		var _bcd_LSB = ((_bcd[0] << 1) + _left_bits[array_length(numb.num)-1]) & 0b0000000000000000000000000000000000000000000000000000000000001111;
-		
-		var _left_bits = [];
-		for(var j = 0; j < array_length(_bcd); j++){
-			_left_bits[j] = _bcd[j] >> 3;
+		for(var j = _numb_arr_length-1; j >= 1; j--){
+			numb.num[j] = ((numb.num[j] << 1) + (numb.num[j-1] >> 30)) & 0b0000000000000000000000000000000001111111111111111111111111111111;
 		}
+		numb.num[0] = (numb.num[0] << 1) & 0b0000000000000000000000000000000001111111111111111111111111111111;
+		
 		if(_bcd[array_length(_bcd)-1] >= 8){
 			array_push(_bcd,0);
+			_bcd_count++;
 		}
-		for(var j = 1; j < array_length(_bcd); j++){
-			_bcd[j] = ((_bcd[j] << 1) + _left_bits[j-1]) & 0b0000000000000000000000000000000000000000000000000000000000001111;
+		for(var j = _bcd_count-1; j >= 1; j--){
+			_bcd[j] = ((_bcd[j] << 1) + (_bcd[j-1] >> 3)) & 0b0000000000000000000000000000000000000000000000000000000000001111;
 		}
 		_bcd[0] = _bcd_LSB;
 	}
@@ -121,13 +117,6 @@ function number_string_dec(numb){
 	
 	for(var i = array_length(_bcd)-1; i >= 0; i--){
 		_str += string_format(_bcd[i], 0, 0);
-	}
-	
-	while(string_char_at(_str,0) == "0"){
-		if(string_length(_str) == 1){
-			break;
-		}
-		_str = string_delete(_str,0,1);
 	}
 	
 	return _str;

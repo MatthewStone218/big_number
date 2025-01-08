@@ -24,6 +24,8 @@ namespace binary_translator
     {
         public MainWindow()
         {
+            //BigInteger a = 11111111;
+            //MessageBox.Show((a * a * a * a).ToString());
             InitializeComponent();
         }
 
