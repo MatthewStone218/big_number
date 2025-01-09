@@ -54,7 +54,6 @@ function __number__(num) constructor {
 		}
 		
 		var _num_bcd = [];
-		var _num_bin = [];
 		for(var i = 0; i < string_length(_num_str_int); i++){
 			switch(string_char_at(_num_str_int,string_length(_num_str_int)-i)){
 				case "0": _num_bin[i] = 0;
@@ -80,7 +79,15 @@ function __number__(num) constructor {
 			}
 		}
 		
-		for(var i = 0;   )
+		var _bcd_length = array_length(_num_bcd);
+		var _num_bin = array_create(floor((_bcd_length+1)*0.67052815164));
+		var _bin_length = array_length(_num_bin);
+		
+		for(var i = 0; i < _bin_length*31; i++){
+			for(var j = _bin_length-ceil((i+1)/31); j < array_length(_bin_length); j++){
+				
+			}
+		}
 		
 		self.num = __number_sum__(self, number(real("0."+_num_str_fract)));
 		
