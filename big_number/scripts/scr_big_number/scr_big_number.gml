@@ -80,15 +80,14 @@ function __number__(num) constructor {
 		}
 		
 		var _bcd_length = array_length(_num_bcd);
-		var _num_bin = array_create(floor((_bcd_length+1)*0.67052815164));
+		var _num_bin = array_create(ceil((_bcd_length)*0.107158970803),0);
 		var _bin_length = array_length(_num_bin);
-		
 		for(var i = 0; i < _bin_length*31; i++){
 			var _repeat = _bin_length-1;
 			for(var j = _bin_length-ceil((i+1)/31); j < _repeat; j++){
-				_num_bin[j] = (_num_bin[j] >> 1)+((_num_bin[j+1] & 0b1) << 3);
+				_num_bin[j] = (_num_bin[j] >> 1)+((_num_bin[j+1] & 0b1) << 30);
 			}
-			_num_bin[_repeat] = (_num_bin[_repeat] >> 1)+((_num_bcd[0] & 0b1) << 3);
+			_num_bin[_repeat] = (_num_bin[_repeat] >> 1)+((_num_bcd[0] & 0b1) << 30);
 			
 			var _repeat = _bcd_length-(i div 4)-1;
 			for(var j = 0; j < _repeat; j++){
@@ -97,10 +96,12 @@ function __number__(num) constructor {
 					_num_bcd[j] -= 3;
 				}
 			}
-			_num_bcd[_repeat] = _num_bcd[_repeat] >> 1;
+			if(_repeat >= 0){
+				_num_bcd[_repeat] = _num_bcd[_repeat] >> 1;
+			}
 		}
 		
-		self.num = _num_bin;show_message(self.num)
+		self.num = _num_bin;
 		
 		self.num = __number_sum__(self, number(real("0."+_num_str_fract))).num;
 		
