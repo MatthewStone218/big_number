@@ -56,25 +56,25 @@ function __number__(num) constructor {
 		var _num_bcd = [];
 		for(var i = 0; i < string_length(_num_str_int); i++){
 			switch(string_char_at(_num_str_int,string_length(_num_str_int)-i)){
-				case "0": _num_bin[i] = 0;
+				case "0": _num_bcd[i] = 0;
 				break;
-				case "1": _num_bin[i] = 1;
+				case "1": _num_bcd[i] = 1;
 				break;
-				case "2": _num_bin[i] = 2;
+				case "2": _num_bcd[i] = 2;
 				break;
-				case "3": _num_bin[i] = 3;
+				case "3": _num_bcd[i] = 3;
 				break;
-				case "4": _num_bin[i] = 4;
+				case "4": _num_bcd[i] = 4;
 				break;
-				case "5": _num_bin[i] = 5;
+				case "5": _num_bcd[i] = 5;
 				break;
-				case "6": _num_bin[i] = 6;
+				case "6": _num_bcd[i] = 6;
 				break;
-				case "7": _num_bin[i] = 7;
+				case "7": _num_bcd[i] = 7;
 				break;
-				case "8": _num_bin[i] = 8;
+				case "8": _num_bcd[i] = 8;
 				break;
-				case "9": _num_bin[i] = 9;
+				case "9": _num_bcd[i] = 9;
 				break;
 			}
 		}
@@ -100,7 +100,9 @@ function __number__(num) constructor {
 			_num_bcd[_repeat] = _num_bcd[_repeat] >> 1;
 		}
 		
-		self.num = __number_sum__(self, number(real("0."+_num_str_fract)));
+		self.num = _num_bin;show_message(self.num)
+		
+		self.num = __number_sum__(self, number(real("0."+_num_str_fract))).num;
 		
 		if(self.fract_length == 0 && array_length(self.num) == 1 && self.num[0] == 0){
 			self.num_sign = 0;

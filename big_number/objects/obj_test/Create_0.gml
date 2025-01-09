@@ -6,6 +6,9 @@
 //var _time = get_timer();
 //show_debug_message(number_string_dec(number("11223344522222222222222222225"),false))
 //show_message($"{(get_timer()-_time)/1000}ms")
+
+show_message(number("10"))
+
 var _numb = number_multiply(number(11111111),number_multiply(number(11111111),number_multiply(number(11111111),number(11111111))));
 show_message(number_string_dec(_numb));
 var _time = get_timer();
