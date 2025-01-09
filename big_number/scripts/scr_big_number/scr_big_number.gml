@@ -93,6 +93,9 @@ function __number__(num) constructor {
 			var _repeat = _bcd_length-(i div 4)-1;
 			for(var j = 0; j < _repeat; j++){
 				_num_bcd[j] = (_num_bcd[j] >> 1)+((_num_bcd[j+1] & 0b1) << 3);
+				if(_num_bcd[j] >= 8){
+					_num_bcd[j] -= 3;
+				}
 			}
 			_num_bcd[_repeat] = _num_bcd[_repeat] >> 1;
 		}
