@@ -84,9 +84,17 @@ function __number__(num) constructor {
 		var _bin_length = array_length(_num_bin);
 		
 		for(var i = 0; i < _bin_length*31; i++){
-			for(var j = _bin_length-ceil((i+1)/31); j < array_length(_bin_length); j++){
-				
+			var _repeat = _bin_length-1;
+			for(var j = _bin_length-ceil((i+1)/31); j < _repeat; j++){
+				_num_bin[j] = (_num_bin[j] >> 1)+((_num_bin[j+1] & 0b1) << 3);
 			}
+			_num_bin[_repeat] = (_num_bin[_repeat] >> 1)+((_num_bcd[0] & 0b1) << 3);
+			
+			var _repeat = _bcd_length-(i div 4)-1;
+			for(var j = 0; j < _repeat; j++){
+				_num_bcd[j] = (_num_bcd[j] >> 1)+((_num_bcd[j+1] & 0b1) << 3);
+			}
+			_num_bcd[_repeat] = _num_bcd[_repeat] >> 1;
 		}
 		
 		self.num = __number_sum__(self, number(real("0."+_num_str_fract)));
