@@ -372,7 +372,7 @@ function __number_reciprocal__(numb, accuracy){
 	}
 	
 	var _not_ddack = true;
-	var _break = false;	
+	var _break = false;
 	for(var a = array_length(numb.num)-1; a >= 0; a--){
 		for(var b = 30; b >= 0; b--){
 			if((numb.num[a] & (1 << b)) != 0){
@@ -393,15 +393,17 @@ function __number_reciprocal__(numb, accuracy){
 	var _result_num = number(0);
 	var _pos_approximation = numb.fract_length*31 - a*31 - b - _not_ddack;
 	
+	var _pos_div_31 = _pos_approximation div 31;
+	var _abs_pos_div_31 = abs(_pos_approximation) div 31;
 	if(_pos_approximation >= 0){
 		_result_num.fract_length = 0;
-		for(var i = 0; i < _pos_approximation div 31; i++){
+		for(var i = 0; i < _pos_div_31; i++){
 			_result_num.num[i] = 0;
 		}
-		_result_num.num[abs(_pos_approximation) div 31] = 1 << (_pos_approximation mod 31);
+		_result_num.num[_abs_pos_div_31] = 1 << (_pos_approximation mod 31);
 	} else {
-		_result_num.fract_length = (abs(_pos_approximation) div 31) + 1;
-		for(var i = 0; i < (abs(_pos_approximation) div 31) + 2; i++){
+		_result_num.fract_length = (_abs_pos_div_31) + 1;
+		for(var i = 0; i < (_abs_pos_div_31) + 2; i++){
 			_result_num.num[i] = 0;
 		}
 		_result_num.num[0] = (1 << 31) >> (abs(_pos_approximation) mod 31);
@@ -409,8 +411,6 @@ function __number_reciprocal__(numb, accuracy){
 	_result_num.num_sign = 1;
 	var _numb_2 = number(2);
 	for(var i = 0; i < 8; i++){
-		//show_message($"__number_multiply__(numb, _result_num, accuracy) =\n\n__number_multiply__({numb}, {_result_num}, accuracy) =\n\n{__number_multiply__(numb, _result_num, accuracy)}")
-		//show_message($"_result_num:{_result_num}\n\nnumb:{numb}\n\n__number_sub__(2, __number_multiply__(numb, _result_num))\n\n__number_sub__(2, {__number_multiply__(numb, _result_num, accuracy)})\n\n{__number_sub__(_numb_2, __number_multiply__(numb, _result_num, accuracy))}\n\n{__number_multiply__(_result_num, __number_sub__(_numb_2, __number_multiply__(numb, _result_num, accuracy)), accuracy)}")
 		_result_num = __number_multiply__(_result_num, __number_sub__(_numb_2, __number_multiply__(numb, _result_num, accuracy)), accuracy);
 	}
 	_result_num = __number_clip__(_result_num, accuracy);

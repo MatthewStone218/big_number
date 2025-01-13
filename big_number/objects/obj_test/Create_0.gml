@@ -15,10 +15,9 @@ var _time = get_timer();
 for(var i = 0; i < 1000; i++){
 	number("123456789123456789123456789123456789")
 }
-show_message($"number(\"123456789123456789123456789123456789\");\n{(get_timer()-_time)/1000000}ms")
+show_debug_message($"number(\"123456789123456789123456789123456789\");\n{(get_timer()-_time)/1000000}ms")
 
 
-show_message(number_string_dec(number_multiply(number(1111111),number_multiply(number(1111111),number(1111111)))))
 var _time = get_timer();
 for(var i = 0; i < 1000; i++){
 	number(1000);
@@ -114,12 +113,6 @@ for(var i = 0; i < 1000; i++){
 }
 show_debug_message($"number_string_dec();\n{(get_timer()-_time)/1000000}ms")
 
-
-show_message(
-	number_string_bin(
-		number_multiply(number("2.5"),number("1.2"))
-	)
-)
 /*
 show_message(
 	number_string_bin(
